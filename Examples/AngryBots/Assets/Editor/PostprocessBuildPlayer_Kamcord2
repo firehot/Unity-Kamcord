@@ -1160,7 +1160,7 @@ class XcodeProject(PBXDict):
 
 ### Main
 def main():
-    # Add the following frameworks
+    # Add the following "System" frameworks
     #       - Accounts
     #       - CoreData
     #       - MessageUI
@@ -1172,6 +1172,9 @@ def main():
                        'Security',
                        'Twitter']
 
+    # Add the following custom frameworks
+    customFrameworksToAdd = ['AWSiOSSDK', 'Kamcord']
+
     rootDir = sys.argv[1]
     projectFile = rootDir + '/Unity-iPhone.xcodeproj/project.pbxproj'
     project = XcodeProject.Load(projectFile)
@@ -1181,6 +1184,11 @@ def main():
         fullFrameworkName = frameworkName + '.framework'
         print '[Adding %s.]' % fullFrameworkName
         project.add_file('System/Library/Frameworks/' + fullFrameworkName, tree='SDKROOT')
+
+    for frameworkName in customFrameworksToAdd:
+        fullFrameworkName = frameworkName + '.framework'
+        print '[Adding %s.]' % fullFrameworkName
+        project.add_file('System/Library/Frameworks/' + fullFrameworkName, tree='SOURCE_ROOT')
 
 
     print '[Adding header search paths.]'

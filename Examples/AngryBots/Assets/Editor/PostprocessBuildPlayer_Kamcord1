@@ -41,25 +41,52 @@ print "DisplayHeight: $DisplayHeight\n";
 
 ### Tasks
 #
-# 1. Add the following frameworks to the project:
-#       - Kamcord
+# 1. Add the following frameworks and Resources to the project:
 #       - AWSiOSSDK
-#       
-#       - Accounts
-#       - CoreData
-#       - MessageUI
-#       - Security
-#       - Twitter
+#       - Kamcord
+#       - Resources (for Kamcord)
+my $unityAssetsXCodePath = getcwd() . "/Assets/XCode/";
+my $xcodeOutputPath      = $PublishFile;
 
-my $xcodeProjectFile  = $PublishFile . "/Unity-iPhone.xcodeproj";
-my $appControllerFile = $PublishFile . "/Classes/AppController.mm";
+print "Unity Assets/XCode path: " . $unityAssetsXCodePath . "\n";
 
-print "AppController file: $appControllerFile\n";
+opendir(XCODEDIR, $unityAssetsXCodePath) or die "Cannot open directory $unityAssetsXCodePath: $!";
+my @files = readdir(XCODEDIR);
+closedir(XCODEDIR);
+
+# Copy files from Unity Assets/XCode/ to the generated XCode project
+my $toPath = $PublishFile . "/Kamcord/";
+`mkdir -p $toPath`;
+foreach my $file (@files)
+{
+    if ($file =~ /\.meta$/) {
+        next;
+    }
+
+    # Kind of a lazy hack
+    unless(($file eq ".") || ($file eq ".."))
+    {
+        # `echo $file > log.txt`;
+        my $fromPath = $unityAssetsXCodePath . $file;
+        `cp -R $fromPath $toPath`;
+    }
+}
+
+# Erase all annoying .meta files
+my @metafiles = `find $toPath -name \\*.meta -print`;
+foreach my $metafile (@metafiles)
+{
+    `rm $metafile`;
+}
+
+
 
 # 2. Find the first #import statement and Import <Kamcord/iPhone_GlesSupport_Kamcord.h> above that for simplicity
+my $appControllerFile = $PublishFile . "/Classes/AppController.mm";
 my $KamcordImport = "#import <Kamcord/iPhone_GlesSupport_Kamcord.h>";
+print "AppController file: $appControllerFile\n";
 
-# 3. Replac
+# 3. Replace
 #   - CreateSurfaceGLES(surface)     --> CreateSurfaceGLES(surface, _context, UnityGetGLViewController())
 #   - DestroySurfaceGLES(...)        --> DestroySurfaceGLES_Kamcord(...)
 #   - PreparePresentSurfaceGLES(...) --> PreparePresentSurfaceGLES_Kamcord(...)
