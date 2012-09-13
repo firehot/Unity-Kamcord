@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 using System.Runtime.InteropServices;
 
 public class Kamcord
@@ -475,8 +476,6 @@ public class Kamcord
 			return false;
 		}
 	}
-	
-	
 	
 	//////////////////////////////////////////////////////////////////
     /// Sundry Methods

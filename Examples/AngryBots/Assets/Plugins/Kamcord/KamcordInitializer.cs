@@ -1,7 +1,7 @@
 //
 // KamcordInitializer lets you set Kamcord parameters from within the Unity IDE.
 //
-// To use this prefab, drag it from Prefabs/Kamcord onto 
+// To use this prefab, drag it from Prefabs/Kamcord into the scene (Hierarchy tab)
 //
 
 using UnityEngine;
