@@ -30,6 +30,9 @@
 // Show video controls when the replay is presented?
 @property (assign, nonatomic) BOOL showVideoControlsOnReplay;
 
+// The location of the Kamcord directory
+@property (nonatomic, retain) NSURL * kamcordDirectory;
+
 
 // Video properties
 @property (nonatomic, assign) CGSize        dimensions;
@@ -61,8 +64,13 @@
                      extension:(NSString *)extension
                         volume:(float)volume
                           loop:(BOOL)loop;
-
 - (void)stopAllSounds:(KC_SOUND_TYPE)soundType;
+
+#if KCUNITY
+- (void)writeAudioData:(float [])data
+                length:(size_t)nsamples
+           numChannels:(int)numChannels;
+#endif
 
 - (void)dealloc;
 

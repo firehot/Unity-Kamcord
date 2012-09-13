@@ -30,6 +30,13 @@
 - (BOOL)stopRecording;
 - (BOOL)isRecording;
 
+#if KCUNITY
+- (void)setAudioFormatDescription:(CMFormatDescriptionRef)desc;
+- (void)writeAudioData:(float [])data
+           numChannels:(int)numChannels
+             audioTime:(CFAbsoluteTime)audioTimestamp;
+#endif
+
 // Useful to know if we're currently writing frames or not
 - (BOOL)isWriting;
 

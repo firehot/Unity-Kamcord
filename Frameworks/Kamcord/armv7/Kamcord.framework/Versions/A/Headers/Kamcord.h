@@ -311,10 +311,6 @@ typedef enum {
 + (KC_VIDEO_RESOLUTION) videoResolution;
 
 // Audio recording
-// The volume is a float bewteen 0 (silence) and 1 (maximum)
-+ (KCAudio *)playSound:(NSString *)filename
-                  loop:(BOOL)loop;
-+ (KCAudio *)playSound:(NSString *)filename;
 
 // Will stop all looping, non-looping, or looping and non-looping sounds.
 typedef enum
@@ -323,11 +319,30 @@ typedef enum
     LOOPING_SOUNDS,
     ALL_SOUNDS
 } KC_SOUND_TYPE;
+
+// The volume is a float bewteen 0 (silence) and 1 (maximum)
+#if (COCOS2D_1_0_1 || COCOS2D_2_0)
++ (KCAudio *)playSound:(NSString *)filename
+                  loop:(BOOL)loop;
++ (KCAudio *)playSound:(NSString *)filename;
+
+
 + (void)stopAllSounds:(KC_SOUND_TYPE)soundType;
 
 // If you have specific sounds you want to overlay at particular times,
 // pass in an array populated with KCSound objects.
 + (BOOL)stopRecordingAndAddSounds:(NSArray *)sounds;
+#endif
+
+#if KCUNITY
++ (void)setAudioSettings:(int)sampleRate
+              bufferSize:(int)bufferSize;
++ (int)audioSampleRate;
++ (int)audioBufferSize;
++ (void)writeAudioData:(float [])data
+                length:(size_t)nsamples
+           numChannels:(int)numChannels;
+#endif
 
 // Every time you call startRecording, Kamcord will delete
 // the previous video if it is not currently being shared.
