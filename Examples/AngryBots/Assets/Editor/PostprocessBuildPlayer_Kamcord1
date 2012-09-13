@@ -59,7 +59,7 @@ my $toPath = $PublishFile . "/Kamcord/";
 `mkdir -p $toPath`;
 foreach my $file (@files)
 {
-    if ($file =~ /\.meta$/) {
+    if ($file =~ /\.meta/) {
         next;
     }
 
