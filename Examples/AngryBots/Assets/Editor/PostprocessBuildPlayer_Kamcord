@@ -1,0 +1,175 @@
+#!/usr/bin/perl
+use warnings;
+use strict;
+use Cwd;
+use File::Copy;
+use File::Glob 'bsd_glob';
+use File::Basename qw(basename dirname fileparse);
+
+
+########################################################################################################################
+#                                                                                                                      #
+#   PostprocessBuildPlayer - v0.2                                                                                      #
+#                                                                                                                      #
+#   Revision History:                                                                                                  #
+#   2007-NOV-15 : Script updated to v0.2 by Tom Higgins (tom@unity3d.com)                                              #
+#                 - Verified compatibility with Unity versions 1.6.2 and 2.x                                           #
+#   2007-JUL-05 : Script v0.1 created by Tom Higgins (tom@unity3d.com)                                                 #
+#                 - Script written to be compatible with Unity 1.6.2                                                   #
+#                                                                                                                      #
+########################################################################################################################
+
+
+# Publish Arguments (Do not edit!) #####################################################################################
+
+# Unity-Provided Publish Arguments
+my $PublishFile =     $ARGV[0];  # The published file (stand-alone, unityweb) path
+my $PublishTarget =   $ARGV[1];  # Publish output target (stand-alone, web player, etc.)
+my $CompanyName =     $ARGV[3];  # Company name as it appears under Edit > Project Settings > Player
+my $ProductName =     $ARGV[4];  # Product name as it appears under Edit > Project Settings > Player
+my $DisplayWidth =    $ARGV[5];  # The default display width as it appears under Edit > Project Settings > Player
+my $DisplayHeight =   $ARGV[6];  # The default display height as it appears under Edit > Project Settings > Player
+	
+# Parse the published web player file path into a file name, folder and suffix
+my ($PublishFileName, $PublishFolder, $PublishSuffix) = fileparse($PublishFile, qr/\.[^.]*/);	
+
+
+print "PublishFile:   $PublishFile\n";
+print "PublishTarget: $PublishTarget\n";
+print "CompanyName:   $CompanyName\n";
+print "ProductName:   $PublishTarget\n";
+print "DisplayWidth:  $DisplayWidth\n";
+print "DisplayHeight: $DisplayHeight\n";
+
+exit(1);
+
+# Web Player Publishing Options ########################################################################################
+
+# Template Page
+# This file will be opened, read, wildcard values found/replaced, then written as a new file (using the same name and
+# file extension) in the publish target folder, replacing the default file created during the publish process.
+my $WP_TemplatePage = "/Assets/Editor/Web Player Files/Web Player Sample.html"; 
+
+# Forced Names
+# Use these two options to force a particular file name on either the unityweb data file or the published page file in
+# which the data file is embedded. If you don't want to force a name on either file then set the appropriate property
+# below to an empty string ("").
+my $WP_DataFileName = "";
+my $WP_PageFileName = "index";
+
+# Supporting Files
+# Push the values on to the array in [source, target] format, where the source string is the path to the source copy of
+# of the supporting file (relative to the root of the project folder), and the target string is the path to the target
+# file (relative to the publish target folder). If there are no supporting files then simply leave the array empty, do
+# not delete the supporting files array declaration.
+my @WP_SupportingFiles = ();
+push(@WP_SupportingFiles, "/Assets/Editor/Web Player Files/unityobject.txt", "unityobject.js");
+push(@WP_SupportingFiles, "/Assets/Editor/Web Player Files/unitystyles.css", "unitystyles.css");
+push(@WP_SupportingFiles, "/Assets/Editor/Web Player Files/uwplogo.png", "uwplogo.png");
+push(@WP_SupportingFiles, "/Assets/Editor/Web Player Files/uwpprogbar.png", "uwpprogbar.png");
+push(@WP_SupportingFiles, "/Assets/Editor/Web Player Files/uwpprogbg.png", "uwpprogbg.png");
+
+# Wildcard Values
+# Push values on to the array in [wildcard, value] format, where the wildcard string is the one to be found in the 
+# template page file and the value string is the string to be used as the replacement for the wildcard string if it's
+# found. If there are no wildcard values to replace then simply leave the array empty, do not delete the wildcard 
+# values array declaration.
+my @WP_WildcardValues = ();
+push(@WP_WildcardValues, "UNITY_NAME", $ProductName);
+push(@WP_WildcardValues, "UNITY_WEB_PATH", ($PublishFileName . $PublishSuffix));
+push(@WP_WildcardValues, "UNITY_WIDTH", $DisplayWidth);
+push(@WP_WildcardValues, "UNITY_HEIGHT", $DisplayHeight);
+push(@WP_WildcardValues, "UNITY_LOGO", "uwplogo.png");
+push(@WP_WildcardValues, "UNITY_PROGRESS_BAR", "uwpprogbar.png");
+push(@WP_WildcardValues, "UNITY_PROGRESS_BG", "uwpprogbg.png");
+
+
+# Procedural Code (Do not edit!) #######################################################################################
+
+# Check the current publish target and respond appropriately
+if ($PublishTarget eq "webplayer")
+{
+    # Verify that a web player template file path was specified
+    if ($WP_TemplatePage ne "")
+    {
+        # Build the full web player template file path
+        $WP_TemplatePage = getcwd . $WP_TemplatePage;
+    
+        # Verify that the web player template file exists
+        if (-e $WP_TemplatePage)
+        {
+          # Parse the web player page template file path into a file name, folder and suffix
+          my ($tTemplateFileName, $tTemplateFolder, $tTemplateSuffix) = fileparse($WP_TemplatePage, qr/\.[^.]*/);
+
+          # Check for the default html file created on publish, delete it if found
+          my $tPublishPage = $PublishFolder . $PublishFileName . ".html";
+          if (-e $tPublishPage) { system("rm", "-rf", $tPublishPage); }
+
+          # Rename the published web player file if necessary
+          if ($WP_DataFileName ne "") {
+            system("mv", $PublishFile, ($PublishFolder . $WP_DataFileName . $PublishSuffix));
+            $PublishFileName = $WP_DataFileName;
+          }	
+                
+          # Build the new publish page file path
+          if ($WP_PageFileName eq "") {
+            $tPublishPage = $PublishFolder . $PublishFileName . $tTemplateSuffix;
+          } else {
+            $tPublishPage = $PublishFolder . $WP_PageFileName . $tTemplateSuffix;
+          }
+            
+          # Create and open the new publish page file
+          open(PublishFile, ">", $tPublishPage);
+            
+          # Open and read the web player template file
+          open(TemplateFile, $WP_TemplatePage);
+            
+          # Read each line of the web player template file
+          while (my $iThisLine = <TemplateFile>)
+          {
+            # Find/replace all template wildcard values
+            my $tWildcardLoops = @WP_WildcardValues;
+            for (my $iCount = 0; $iCount < ($tWildcardLoops / 2.0); $iCount++)
+            {
+              my $tFindIndex = ($iCount * 2);
+              my $tReplaceIndex = $tFindIndex + 1;
+              $iThisLine =~ s/$WP_WildcardValues[$tFindIndex]/$WP_WildcardValues[$tReplaceIndex]/g;
+            }
+                    
+            # Write line to new publish page file
+            print PublishFile $iThisLine;
+                    
+          }
+                
+          # Close the template file
+          close(TemplateFile);
+                
+          # Close the new publish file
+          close(PublishFile);
+                
+          # Copy any supporting files into place
+          my $tFileLoops = @WP_SupportingFiles;
+          for (my $jCount = 0; $jCount < ($tFileLoops / 2.0); $jCount++) {
+            my $tSourceIndex = ($jCount * 2);
+            my $tTargetIndex = $tSourceIndex + 1;
+            my $tSourceFile = getcwd . $WP_SupportingFiles[$tSourceIndex];
+            my $tTargetFile = $PublishFolder . $WP_SupportingFiles[$tTargetIndex];
+            my ($tTargetFileName, $tTargetFolder, $tTargetSuffix) = fileparse($tTargetFile);
+            if (!-d $tTargetFolder) { system("mkdir", $tTargetFolder); }
+            system("cp", $tSourceFile, $tTargetFile);
+          }
+                            
+        } else {
+          # Error: specified web player page template does not exist
+        }
+    
+      } else {
+        # Error: no web player page template specified...
+      }
+} else {
+	# Error: unsupported publish target...
+}
+
+
+########################################################################################################################
+

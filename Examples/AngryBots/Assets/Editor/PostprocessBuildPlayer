@@ -1,0 +1,12 @@
+#!/usr/bin/perl
+use Cwd;
+
+my $PublishFile = $ARGV[0];
+my $firstScriptExecutor = "perl";
+my $firstPostProcesScriptName = join("/", getcwd(), "Assets", "Editor", "PostprocessBuildPlayer_Kamcord1");
+my @cmd = ($firstScriptExecutor, $firstPostProcesScriptName, $PublishFile);
+
+print "[Executing @cmd.]\n";
+system(@cmd);
+print "[Finished executing @cmd.]\n";
+
