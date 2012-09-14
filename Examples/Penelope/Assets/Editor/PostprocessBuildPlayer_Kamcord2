@@ -165,7 +165,7 @@ class PBXFileReference(PBXType):
 		'.xib': ('file.xib', 'PBXResourcesBuildPhase'),
 		'.strings': ('text.plist.strings', 'PBXResourcesBuildPhase'),
 		'.bundle': ('wrapper.plug-in', 'PBXResourcesBuildPhase'),
-		'.dylib': ('compiled.mach-o.dylib', 'PBXFrameworksBuildPhase')
+		'.dylib': ('compiled.mach-o.dylib', 'PBXFrameworksBuildPhase'),
 	}
 
 	trees = [
@@ -1160,7 +1160,7 @@ class XcodeProject(PBXDict):
 
 ### Main
 def main():
-    # Add the following frameworks
+    # Add the following "System" frameworks
     #       - Accounts
     #       - CoreData
     #       - MessageUI
@@ -1172,6 +1172,15 @@ def main():
                        'Security',
                        'Twitter']
 
+    # Add the following custom frameworks
+    customFrameworksToAdd = ['AWSiOSSDK', 'Kamcord']
+    resourcesToAdd = ['Resources/FBDialog.bundle',
+                      'Resources/Kamcord.bundle',
+                      'Resources/ShareKit.bundle',
+                      'Resources/GTMOAuth2ViewTouch.nib',
+                      'Resources/KCVideoTracker.momd/KCVideoTracker.mom',
+                      'Resources/KCVideoTracker.momd/KCVideoTracker.omo']
+
     rootDir = sys.argv[1]
     projectFile = rootDir + '/Unity-iPhone.xcodeproj/project.pbxproj'
     project = XcodeProject.Load(projectFile)
@@ -1181,6 +1190,18 @@ def main():
         fullFrameworkName = frameworkName + '.framework'
         print '[Adding %s.]' % fullFrameworkName
         project.add_file('System/Library/Frameworks/' + fullFrameworkName, tree='SDKROOT')
+
+    # Ask developer to drag and drop. Adding these do make them appear in XCode
+    # and under Build Phases, but something is wrong where it's not added correctly.
+    #
+    # for frameworkName in customFrameworksToAdd:
+        # fullFrameworkName = frameworkName + '.framework'
+        # print '[Adding %s.]' % fullFrameworkName
+        # project.add_file('Kamcord/' + fullFrameworkName, tree='<group>')
+
+    # for resource in resourcesToAdd:
+        # print '[Adding %s.]' % resource
+        # project.add_file('Kamcord/' + resource, tree='<group>')
 
 
     print '[Adding header search paths.]'
