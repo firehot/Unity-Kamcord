@@ -42,19 +42,18 @@ print "DisplayHeight: $DisplayHeight\n";
 ### Tasks
 #
 # 1. Add the following frameworks and Resources to the project:
-#       - AWSiOSSDK
 #       - Kamcord
 #       - Resources (for Kamcord)
-my $unityAssetsXCodePath = getcwd() . "/Assets/XCode/";
+my $unityAssetsXcodePath = getcwd() . "/Assets/Xcode/";
 my $xcodeOutputPath      = $PublishFile;
 
-print "Unity Assets/XCode path: " . $unityAssetsXCodePath . "\n";
+print "Unity Assets/Xcode path: " . $unityAssetsXcodePath . "\n";
 
-opendir(XCODEDIR, $unityAssetsXCodePath) or die "Cannot open directory $unityAssetsXCodePath: $!";
+opendir(XCODEDIR, $unityAssetsXcodePath) or die "Cannot open directory $unityAssetsXcodePath: $!";
 my @files = readdir(XCODEDIR);
 closedir(XCODEDIR);
 
-# Copy files from Unity Assets/XCode/ to the generated XCode project
+# Copy files from Unity Assets/Xcode/ to the generated Xcode project
 my $toPath = $PublishFile . "/Kamcord/";
 `mkdir -p $toPath`;
 foreach my $file (@files)
@@ -67,7 +66,7 @@ foreach my $file (@files)
     unless(($file eq ".") || ($file eq ".."))
     {
         # `echo $file > log.txt`;
-        my $fromPath = $unityAssetsXCodePath . $file;
+        my $fromPath = $unityAssetsXcodePath . $file;
         `cp -R $fromPath $toPath`;
     }
 }

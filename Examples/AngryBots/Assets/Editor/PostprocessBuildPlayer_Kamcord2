@@ -1173,10 +1173,10 @@ def main():
                        'Twitter']
 
     # Add the following custom frameworks
-    customFrameworksToAdd = ['AWSiOSSDK', 'Kamcord']
+    customFrameworksToAdd = ['Kamcord']
     resourcesToAdd = ['Resources/FBDialog.bundle',
                       'Resources/Kamcord.bundle',
-                      'Resources/ShareKit.bundle',
+                      'Resources/KCShareKit.bundle',
                       'Resources/GTMOAuth2ViewTouch.nib',
                       'Resources/KCVideoTracker.momd/KCVideoTracker.mom',
                       'Resources/KCVideoTracker.momd/KCVideoTracker.omo']
@@ -1191,7 +1191,7 @@ def main():
         print '[Adding %s.]' % fullFrameworkName
         project.add_file('System/Library/Frameworks/' + fullFrameworkName, tree='SDKROOT')
 
-    # Ask developer to drag and drop. Adding these do make them appear in XCode
+    # Ask developer to drag and drop. Adding these do make them appear in Xcode
     # and under Build Phases, but something is wrong where it's not added correctly.
     #
     # for frameworkName in customFrameworksToAdd:
