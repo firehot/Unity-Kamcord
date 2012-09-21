@@ -61,6 +61,7 @@
      <Compile Include="Assets\Scripts\PlayerRelativeControl.js" />
      <Compile Include="Assets\Scripts\RotationConstraint.js" />
      <Compile Include="Assets\Scripts\ScoreKeeper.js" />
+     <Compile Include="Assets\Scripts\ShowFps.js" />
      <Compile Include="Assets\Scripts\TapControl.js" />
      <Compile Include="Assets\Scripts\WaterMovement.js" />
      <Compile Include="Assets\Scripts\ZoomCamera.js" />
