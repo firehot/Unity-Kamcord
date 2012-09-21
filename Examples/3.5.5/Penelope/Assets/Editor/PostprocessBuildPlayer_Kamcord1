@@ -80,9 +80,9 @@ foreach my $metafile (@metafiles)
 
 
 
-# 2. Find the first #import statement and Import <Kamcord/iPhone_GlesSupport_Kamcord.h> above that for simplicity
+# 2. Find the first #import statement and Import <Kamcord/Unity/iPhone_GlesSupport_Kamcord.h> above that for simplicity
 my $appControllerFile = $PublishFile . "/Classes/AppController.mm";
-my $KamcordImport = "#import <Kamcord/iPhone_GlesSupport_Kamcord.h>";
+my $KamcordImport = "#import <Kamcord/Unity/iPhone_GlesSupport_Kamcord.h>";
 print "AppController file: $appControllerFile\n";
 
 # 3. Replace

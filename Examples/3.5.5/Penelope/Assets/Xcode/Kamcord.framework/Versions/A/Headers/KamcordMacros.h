@@ -8,6 +8,7 @@
 
 // Tell Kamcord which version we're using
 #define KCUNITY 1
+#define PRE_IOS_6 1
 
 #ifndef KamcordMacros_h
 #define KamcordMacros_h

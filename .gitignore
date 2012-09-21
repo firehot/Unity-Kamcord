@@ -1,12 +1,12 @@
 #### Unity
 
-Examples/AngryBots/Temp/
-Examples/AngryBots/Library/
-Examples/AngryBots/Obj/
+Examples/4.0/AngryBots/Temp/
+Examples/4.0/AngryBots/Library/
+Examples/4.0/AngryBots/Obj/
 
-Examples/Penelope/Temp/
-Examples/Penelope/Library/
-Examples/Penelope/Obj/
+Examples/3.5.5/Penelope/Temp/
+Examples/3.5.5/Penelope/Library/
+Examples/3.5.5/Penelope/Obj/
 
 *.pidb
 *.svd

@@ -26,6 +26,7 @@
 // Should the UI wait for conversion to finish before
 // dismissing the share view?
 @property (assign, nonatomic) BOOL enableSynchronousConversionUI;
+@property (assign, nonatomic) BOOL alwaysShowProgressBar;
 
 // Show video controls when the replay is presented?
 @property (assign, nonatomic) BOOL showVideoControlsOnReplay;
