@@ -3,6 +3,10 @@ using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 
+//////////////////////////////////////////////////////////////////
+/// Version: 0.9.6
+//////////////////////////////////////////////////////////////////
+
 public class Kamcord
 {
 	//////////////////////////////////////////////////////////////////
@@ -285,7 +289,7 @@ public class Kamcord
 	}
 		
     public static void SetLevelAndScore(string level,
-                                                double score)
+                                        double score)
 	{
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor)
