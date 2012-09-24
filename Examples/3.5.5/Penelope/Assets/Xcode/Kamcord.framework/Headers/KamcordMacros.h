@@ -38,9 +38,5 @@
 #define KCDeviceOrientationLandscapeLeft UIInterfaceOrientationLandscapeLeft
 #define KCDeviceOrientationLandscapeRight UIInterfaceOrientationLandscapeRight
 
-// OpenGL
-// TODO
-#define KC_CONTENT_SCALE_FACTOR() 1
-
 #endif
 

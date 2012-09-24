@@ -409,7 +409,7 @@ public class Kamcord
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor)
 		{
-			Debug.Log ("Kamcord.WriteAudioData");
+			// Debug.Log ("Kamcord.WriteAudioData");
 			_KamcordWriteAudioData(data, nsamples, numChannels);
 		}
 		else

@@ -290,6 +290,7 @@ typedef enum
 // as opposed to the round restarting again.
 + (void)setShowVideoControlsOnReplay:(BOOL)showControls;
 + (BOOL)showVideoControlsOnReplay;
++ (BOOL)alwaysShowProgressBar;  // Returns NO for now
 
 
 // Video recording settings

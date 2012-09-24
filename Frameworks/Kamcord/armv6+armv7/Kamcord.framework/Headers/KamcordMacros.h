@@ -8,6 +8,7 @@
 
 // Tell Kamcord which version we're using
 #define KCUNITY 1
+#define PRE_IOS_6 1
 
 #ifndef KamcordMacros_h
 #define KamcordMacros_h
@@ -36,10 +37,6 @@
 #define KCDeviceOrientationPortraitUpsideDown UIInterfaceOrientationPortraitUpsideDown
 #define KCDeviceOrientationLandscapeLeft UIInterfaceOrientationLandscapeLeft
 #define KCDeviceOrientationLandscapeRight UIInterfaceOrientationLandscapeRight
-
-// OpenGL
-// TODO
-#define KC_CONTENT_SCALE_FACTOR() 1
 
 #endif
 

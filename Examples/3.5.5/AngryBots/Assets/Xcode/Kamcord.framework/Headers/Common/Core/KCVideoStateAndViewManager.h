@@ -12,6 +12,7 @@
 #import "KCVideoProcessingAndShareManager.h"
 
 @class KCUI;
+@class KCVideoWriter;
 
 @interface KCVideoStateAndViewManager : NSObject<KCVideoProcessDelegate>
 
@@ -33,6 +34,9 @@
 
 // The location of the Kamcord directory
 @property (nonatomic, retain) NSURL * kamcordDirectory;
+
+// The active video writer
+@property (nonatomic, assign) KCVideoWriter * activeVideoWriter;
 
 
 // Video properties
