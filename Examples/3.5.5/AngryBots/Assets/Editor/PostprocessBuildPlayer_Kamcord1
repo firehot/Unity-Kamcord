@@ -92,9 +92,9 @@ print "AppController file: $appControllerFile\n";
 #   - AfterPresentSurfaceGLES(...)   --> AfterPresentSurfaceGLES_Kamcord(...)
 my %replaceMapping = (
     'CreateSurfaceGLES\\(surface\\)' => 'CreateSurfaceGLES_Kamcord(surface, _context, UnityGetGLViewController())',
-    'DestroySurfaceGLES'         => 'DestroySurfaceGLES_Kamcord',
-    'PreparePresentSurfaceGLES'  => 'PreparePresentSurfaceGLES_Kamcord',
-    'AfterPresentSurfaceGLES'    => 'AfterPresentSurfaceGLES_Kamcord',
+    'DestroySurfaceGLES\\('          => 'DestroySurfaceGLES_Kamcord(',
+    'PreparePresentSurfaceGLES\\('   => 'PreparePresentSurfaceGLES_Kamcord(',
+    'AfterPresentSurfaceGLES\\('     => 'AfterPresentSurfaceGLES_Kamcord(',
 );
 
 
