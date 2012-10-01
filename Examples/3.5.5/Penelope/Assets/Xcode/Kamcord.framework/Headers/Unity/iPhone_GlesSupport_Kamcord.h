@@ -3,11 +3,12 @@
 
 #import "iPhone_GlesSupport.h"
 
-void CreateSurfaceGLES_Kamcord(EAGLSurfaceDesc* surface, void * context, void * parentViewController);
-void DestroySurfaceGLES_Kamcord(EAGLSurfaceDesc* surface);
-void CreateSurfaceMultisampleBuffersGLES_Kamcord(EAGLSurfaceDesc* surface);
-void DestroySurfaceMultisampleBuffersGLES_Kamcord(EAGLSurfaceDesc* surface);
-void PreparePresentSurfaceGLES_Kamcord(EAGLSurfaceDesc* surface);
-void AfterPresentSurfaceGLES_Kamcord(EAGLSurfaceDesc* surface);
+extern "C" void KamcordInitUnity();
+void CreateSurfaceGLES_Kamcord(struct EAGLSurfaceDesc* surface, void * context, void * parentViewController);
+void DestroySurfaceGLES_Kamcord(struct EAGLSurfaceDesc* surface);
+void CreateSurfaceMultisampleBuffersGLES_Kamcord(struct EAGLSurfaceDesc* surface);
+void DestroySurfaceMultisampleBuffersGLES_Kamcord(struct EAGLSurfaceDesc* surface);
+void PreparePresentSurfaceGLES_Kamcord(struct EAGLSurfaceDesc* surface);
+void AfterPresentSurfaceGLES_Kamcord(struct EAGLSurfaceDesc* surface);
 
 #endif

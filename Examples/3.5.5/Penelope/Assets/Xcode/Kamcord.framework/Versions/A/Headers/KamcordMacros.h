@@ -6,15 +6,15 @@
 //  Copyright (c) 2012 Kamcord Inc. All rights reserved.
 //
 
+#ifndef KamcordMacros_h
+#define KamcordMacros_h
+
 // Tell Kamcord which version we're using
 #define KCUNITY 1
 #define PRE_IOS_6 1
 
-#ifndef KamcordMacros_h
-#define KamcordMacros_h
-
 // Logging
-#ifdef DEBUG
+#ifdef KCDEBUG
 
 #define NLog(fmt, ...) printf("%s\n", [[NSString stringWithFormat:@"%s:%d %@", __PRETTY_FUNCTION__, __LINE__, [NSString stringWithFormat:fmt, ##__VA_ARGS__]] UTF8String])
 

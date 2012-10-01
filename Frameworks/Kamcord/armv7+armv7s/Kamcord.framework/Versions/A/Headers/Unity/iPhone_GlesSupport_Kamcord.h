@@ -3,6 +3,7 @@
 
 #import "iPhone_GlesSupport.h"
 
+extern "C" void KamcordInitUnity();
 void CreateSurfaceGLES_Kamcord(EAGLSurfaceDesc * surface, void * context, void * parentViewController);
 void CreateRenderingSurfaceGLES_Kamcord(EAGLSurfaceDesc * surface);
 void DestroySurfaceGLES_Kamcord(EAGLSurfaceDesc * surface);
