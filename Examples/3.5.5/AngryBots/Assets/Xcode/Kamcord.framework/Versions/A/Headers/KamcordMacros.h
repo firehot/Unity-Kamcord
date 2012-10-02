@@ -11,7 +11,7 @@
 
 // Tell Kamcord which version we're using
 #define KCUNITY 1
-#define PRE_IOS_6 1
+// #define PRE_IOS_6 1
 
 // Logging
 #ifdef KCDEBUG
