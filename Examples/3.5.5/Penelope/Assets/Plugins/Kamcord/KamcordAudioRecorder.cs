@@ -17,4 +17,14 @@ public class KamcordAudioRecorder : MonoBehaviour
 			Kamcord.WriteAudioData(data, data.Length, numChannels);
 		}
 	}
+	
+	void OnApplicationPause(bool pause)
+	{
+		if (pause)
+		{
+			Kamcord.Pause();
+		} else {
+			Kamcord.Resume();
+		}
+	}
 }
