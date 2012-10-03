@@ -62,6 +62,9 @@ public class Kamcord
 	private static extern bool _KamcordStopRecording();
 	
 	[DllImport ("__Internal")]
+	private static extern bool _KamcordStopRecordingAndDeferProcessing();
+	
+	[DllImport ("__Internal")]
 	private static extern bool _KamcordPause();
 	
 	[DllImport ("__Internal")]
@@ -335,6 +338,22 @@ public class Kamcord
 		else
 		{
 			Debug.Log ("[NOT CALLED] Kamcord.StopRecording");
+			return false;
+		}
+	}
+	
+	// Stop recording and discard video
+	public static bool StopRecordingAndDeferProcessing()
+	{
+		// Call plugin only when running on real device
+		if (Application.platform != RuntimePlatform.OSXEditor)
+		{
+			Debug.Log ("Kamcord.StopRecordingAndDeferProcessing");
+			return _KamcordStopRecordingAndDeferProcessing();
+		}
+		else
+		{
+			Debug.Log ("[NOT CALLED] Kamcord.StopRecordingAndDeferProcessing");
 			return false;
 		}
 	}
