@@ -1191,7 +1191,7 @@ def main():
     for frameworkName in frameworksToAdd:
         fullFrameworkName = frameworkName + '.framework'
         print '[Adding %s.]' % fullFrameworkName
-        project.add_file('System/Library/Frameworks/' + fullFrameworkName, tree='SDKROOT')
+        project.add_file_if_doesnt_exist('System/Library/Frameworks/' + fullFrameworkName, tree='SDKROOT')
 
     # Ask developer to drag and drop. Adding these do make them appear in Xcode
     # and under Build Phases, but something is wrong where it's not added correctly.
@@ -1199,20 +1199,16 @@ def main():
     for frameworkName in customFrameworksToAdd:
         fullFrameworkName = frameworkName + '.framework'
         print '[Adding %s.]' % fullFrameworkName
-        project.add_file('Kamcord/' + fullFrameworkName, tree='<group>')
+        project.add_file_if_doesnt_exist('Kamcord/' + fullFrameworkName, tree='<group>')
 
     for resource in resourcesToAdd:
         print '[Adding %s.]' % resource
-        project.add_file('Kamcord/' + resource, tree='<group>')
+        project.add_file_if_doesnt_exist('Kamcord/' + resource, tree='<group>')
 
-
-    print '[Adding header search paths.]'
-    project.add_header_search_paths(['/usr/include/libxml2'])
 
     # Necessary otherwise won't find Kamcord.framework
     print '[Adding framework search paths.]'
     project.add_framework_search_paths(['$(SRCROOT)/Kamcord'], recursive=False)
-
 
     print '[Adding Other Linker Flags.]'
     project.add_other_ldflags(['-ObjC', '-lxml2'])
