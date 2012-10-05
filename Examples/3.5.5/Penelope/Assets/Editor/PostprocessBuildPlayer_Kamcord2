@@ -154,7 +154,9 @@ class PBXFileReference(PBXType):
 		'.icns': ('image.icns','PBXResourcesBuildPhase'),
 		'.m': ('sourcecode.c.objc', 'PBXSourcesBuildPhase'),
 		'.mm': ('sourcecode.cpp.objcpp', 'PBXSourcesBuildPhase'),
+		'.mom': ('file.pblist', 'PBXResourcesBuildPhase'),
 		'.nib': ('wrapper.nib', 'PBXResourcesBuildPhase'),
+		'.omo': ('file', 'PBXResourcesBuildPhase'),
 		'.plist': ('text.plist.xml', 'PBXResourcesBuildPhase'),
 		'.json': ('text.json', 'PBXResourcesBuildPhase'),
 		'.png': ('image.png', 'PBXResourcesBuildPhase'),
@@ -1194,18 +1196,22 @@ def main():
     # Ask developer to drag and drop. Adding these do make them appear in Xcode
     # and under Build Phases, but something is wrong where it's not added correctly.
     #
-    # for frameworkName in customFrameworksToAdd:
-        # fullFrameworkName = frameworkName + '.framework'
-        # print '[Adding %s.]' % fullFrameworkName
-        # project.add_file('Kamcord/' + fullFrameworkName, tree='<group>')
+    for frameworkName in customFrameworksToAdd:
+        fullFrameworkName = frameworkName + '.framework'
+        print '[Adding %s.]' % fullFrameworkName
+        project.add_file('Kamcord/' + fullFrameworkName, tree='<group>')
 
-    # for resource in resourcesToAdd:
-        # print '[Adding %s.]' % resource
-        # project.add_file('Kamcord/' + resource, tree='<group>')
+    for resource in resourcesToAdd:
+        print '[Adding %s.]' % resource
+        project.add_file('Kamcord/' + resource, tree='<group>')
 
 
     print '[Adding header search paths.]'
     project.add_header_search_paths(['/usr/include/libxml2'])
+
+    # Necessary otherwise won't find Kamcord.framework
+    print '[Adding framework search paths.]'
+    project.add_framework_search_paths(['$(SRCROOT)/Kamcord'], recursive=False)
 
 
     print '[Adding Other Linker Flags.]'

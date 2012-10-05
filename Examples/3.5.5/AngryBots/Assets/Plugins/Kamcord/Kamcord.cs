@@ -175,6 +175,10 @@ public class Kamcord
 	
 	/* Public interface for use inside C# / JS code */
 	
+		
+	// The object that Kamcord will pass callbacks to
+	private static KamcordCallbackInterface callbackProcessor = null; 
+	
 	// Starts lookup for some bonjour registered service inside specified domain
 	public static void Init(string devKey,
 						    string devSecret,
@@ -519,8 +523,7 @@ public class Kamcord
 		}
 	}
 	
-	
-	
+
 	//////////////////////////////////////////////////////////////////
     /// Custom Sharing UI
     /// 
@@ -528,9 +531,7 @@ public class Kamcord
 	// TODO:
 	// void PresentVideoPlayerInViewController(UIViewController * parentViewController);
     
-    // TODO: setMoviePlayerDelegate
-    //       moviePlayerDelegate
-    //       setShareDelegate
+    // TODO: setShareDelegate
     //       shareDelegate
 
     public static void ShowFacebookLoginView()

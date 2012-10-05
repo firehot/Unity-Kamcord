@@ -127,11 +127,12 @@ public class Kamcord
 	// [DllImport ("__Internal")]
 	// void _KamcordPresentVideoPlayerInViewController(UIViewController * parentViewController);
     
-    // TODO: setMoviePlayerDelegate
-    //       moviePlayerDelegate
-    //       setShareDelegate
+    // TODO: setShareDelegate
     //       shareDelegate
         
+	[DllImport ("__Internal")]
+	private static extern void _KamcordSubscribeToCallbacks(bool subscribe);
+	
 	[DllImport ("__Internal")]
     private static extern void _KamcordShowFacebookLoginView();
     
@@ -171,6 +172,22 @@ public class Kamcord
 		
 	
 	
+	// Possible values of deviceOrientation:
+	public enum DeviceOrientation
+	{
+		Portrait,
+		LandscapeLeft,
+		LandscapeRight,
+		PortraitUpsideDown
+	};
+	
+	// Possible values of videoResolution
+	public enum VideoResolution
+	{
+		Smart,
+		Trailer
+	};
+	
 	
 	//////////////////////////////////////////////////////////////////
     /// Implementations
@@ -182,14 +199,14 @@ public class Kamcord
 	public static void Init(string devKey,
 						    string devSecret,
 						    string appName,
-						    string deviceOrientation, // "LandscapeLeft", "LandscapeRight", "Portrait", "PortraitUpsideDown"
-						    string videoResolution)	  // "SMART", "TRAILER"
+						    DeviceOrientation deviceOrientation,
+						    VideoResolution videoResolution)
 	{
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor)
 		{
 			Debug.Log ("Kamcord.Init");
-			_KamcordInit(devKey, devSecret, appName, deviceOrientation, videoResolution);
+			_KamcordInit(devKey, devSecret, appName, deviceOrientation.ToString(), videoResolution.ToString());
 		}
 		else
 		{
@@ -539,6 +556,23 @@ public class Kamcord
 	}
 	
 	
+	//////////////////////////////////////////////////////////////////
+    /// Subscribe to callbacks from Kamcord
+    /// 
+	
+	public static void SubscribeToCallbacks(bool subscribe)
+	{
+		if (Application.platform != RuntimePlatform.OSXEditor)
+		{
+			Debug.Log ("Kamcord.SubscribeToCallbacks");
+			KamcordCallbackListener.SubscribeToKamcordNotifications(subscribe);
+			_KamcordSubscribeToCallbacks(subscribe);
+		} else {
+			Debug.Log ("[NOT CALLED] Kamcord.SubscribeToCallbacks");
+		}
+	}
+	
+	
 	
 	//////////////////////////////////////////////////////////////////
     /// Custom Sharing UI
@@ -547,11 +581,9 @@ public class Kamcord
 	// TODO:
 	// void PresentVideoPlayerInViewController(UIViewController * parentViewController);
     
-    // TODO: setMoviePlayerDelegate
-    //       moviePlayerDelegate
-    //       setShareDelegate
+    // TODO: setShareDelegate
     //       shareDelegate
-
+	
     public static void ShowFacebookLoginView()
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor)
