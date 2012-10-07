@@ -8,6 +8,7 @@ public class KamcordAudioRecorder : MonoBehaviour
 		int numBuffers;
 		AudioSettings.GetDSPBufferSize(out bufferSize, out numBuffers);
 		Kamcord.SetAudioSettings(AudioSettings.outputSampleRate, bufferSize);
+		Kamcord.SubscribeToCallbacks(true);
 	}
 	
 	void OnAudioFilterRead(float [] data, int numChannels)
@@ -15,6 +16,16 @@ public class KamcordAudioRecorder : MonoBehaviour
 		if (Kamcord.IsRecording())
 		{
 			Kamcord.WriteAudioData(data, data.Length, numChannels);
+		}
+	}
+	
+	void OnApplicationPause(bool pause)
+	{
+		if (pause)
+		{
+			Kamcord.Pause();
+		} else {
+			Kamcord.Resume();
 		}
 	}
 }

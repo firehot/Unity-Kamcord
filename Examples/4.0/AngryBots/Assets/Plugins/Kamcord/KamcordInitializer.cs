@@ -1,33 +1,24 @@
-//
+// ------------------------------------------------------------------------------
 // KamcordInitializer lets you set Kamcord parameters from within the Unity IDE.
 //
 // To use this prefab, drag it from Prefabs/Kamcord into the scene (Hierarchy tab)
-//
+// ------------------------------------------------------------------------------
 
 using UnityEngine;
 
 public class KamcordInitializer : MonoBehaviour 
 {	
-	// Possible values of deviceOrientation:
-	//  - Portrait
-	//  - PotraitUpsideDown
-	//  - LandscapeLeft
-	//  - LandscapeRight
-	
-	// Possible values of videoResolution
-	//  - Smart    (Should be used for release)
-	//  - Trailer  (Should only be used for making a trailer)
-	
 	// Public properties
-	public string developerKey    	= "Kamcord developer key";
-	public string developerSecret 	= "Kamcord developer secret";
-	public string appName   		= "Application name";
-	public string deviceOrientation = "Portrait";
-	public string videoResolution   = "Smart";
+	public string developerKey    			   		  = "Kamcord developer key";
+	public string developerSecret 			   		  = "Kamcord developer secret";
+	public string appName   				   		  = "Application name";
+	public Kamcord.DeviceOrientation deviceOrientation = Kamcord.DeviceOrientation.Portrait;
+	public Kamcord.VideoResolution videoResolution     = Kamcord.VideoResolution.Smart;
 	
 	// Public methods
 	void Awake()
 	{
+		DontDestroyOnLoad(this);
 		Kamcord.Init(developerKey, developerSecret, appName, deviceOrientation, videoResolution);
 	}
 

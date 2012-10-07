@@ -4,7 +4,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 
 //////////////////////////////////////////////////////////////////
-/// Version: 0.9.7
+/// Version: 0.9.8
 //////////////////////////////////////////////////////////////////
 
 public class Kamcord
@@ -60,6 +60,9 @@ public class Kamcord
 	
 	[DllImport ("__Internal")]
 	private static extern bool _KamcordStopRecording();
+	
+	[DllImport ("__Internal")]
+	private static extern bool _KamcordStopRecordingAndDeferProcessing();
 	
 	[DllImport ("__Internal")]
 	private static extern bool _KamcordPause();
@@ -124,11 +127,12 @@ public class Kamcord
 	// [DllImport ("__Internal")]
 	// void _KamcordPresentVideoPlayerInViewController(UIViewController * parentViewController);
     
-    // TODO: setMoviePlayerDelegate
-    //       moviePlayerDelegate
-    //       setShareDelegate
+    // TODO: setShareDelegate
     //       shareDelegate
         
+	[DllImport ("__Internal")]
+	private static extern void _KamcordSubscribeToCallbacks(bool subscribe);
+	
 	[DllImport ("__Internal")]
     private static extern void _KamcordShowFacebookLoginView();
     
@@ -168,6 +172,22 @@ public class Kamcord
 		
 	
 	
+	// Possible values of deviceOrientation:
+	public enum DeviceOrientation
+	{
+		Portrait,
+		LandscapeLeft,
+		LandscapeRight,
+		PortraitUpsideDown
+	};
+	
+	// Possible values of videoResolution
+	public enum VideoResolution
+	{
+		Smart,
+		Trailer
+	};
+	
 	
 	//////////////////////////////////////////////////////////////////
     /// Implementations
@@ -175,22 +195,18 @@ public class Kamcord
 	
 	/* Public interface for use inside C# / JS code */
 	
-		
-	// The object that Kamcord will pass callbacks to
-	private static KamcordCallbackInterface callbackProcessor = null; 
-	
 	// Starts lookup for some bonjour registered service inside specified domain
 	public static void Init(string devKey,
 						    string devSecret,
 						    string appName,
-						    string deviceOrientation, // "LandscapeLeft", "LandscapeRight", "Portrait", "PortraitUpsideDown"
-						    string videoResolution)	  // "SMART", "TRAILER"
+						    DeviceOrientation deviceOrientation,
+						    VideoResolution videoResolution)
 	{
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor)
 		{
 			Debug.Log ("Kamcord.Init");
-			_KamcordInit(devKey, devSecret, appName, deviceOrientation, videoResolution);
+			_KamcordInit(devKey, devSecret, appName, deviceOrientation.ToString(), videoResolution.ToString());
 		}
 		else
 		{
@@ -339,6 +355,22 @@ public class Kamcord
 		else
 		{
 			Debug.Log ("[NOT CALLED] Kamcord.StopRecording");
+			return false;
+		}
+	}
+	
+	// Stop recording and discard video
+	public static bool StopRecordingAndDeferProcessing()
+	{
+		// Call plugin only when running on real device
+		if (Application.platform != RuntimePlatform.OSXEditor)
+		{
+			Debug.Log ("Kamcord.StopRecordingAndDeferProcessing");
+			return _KamcordStopRecordingAndDeferProcessing();
+		}
+		else
+		{
+			Debug.Log ("[NOT CALLED] Kamcord.StopRecordingAndDeferProcessing");
 			return false;
 		}
 	}
@@ -523,7 +555,25 @@ public class Kamcord
 		}
 	}
 	
-
+	
+	//////////////////////////////////////////////////////////////////
+    /// Subscribe to callbacks from Kamcord
+    /// 
+	
+	public static void SubscribeToCallbacks(bool subscribe)
+	{
+		if (Application.platform != RuntimePlatform.OSXEditor)
+		{
+			Debug.Log ("Kamcord.SubscribeToCallbacks");
+			KamcordCallbackListener.SubscribeToKamcordNotifications(subscribe);
+			_KamcordSubscribeToCallbacks(subscribe);
+		} else {
+			Debug.Log ("[NOT CALLED] Kamcord.SubscribeToCallbacks");
+		}
+	}
+	
+	
+	
 	//////////////////////////////////////////////////////////////////
     /// Custom Sharing UI
     /// 
@@ -533,7 +583,7 @@ public class Kamcord
     
     // TODO: setShareDelegate
     //       shareDelegate
-
+	
     public static void ShowFacebookLoginView()
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor)

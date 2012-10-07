@@ -153,11 +153,15 @@ typedef enum
 @end
 
 
-
 // --------------------------------------------------------
 // Callbacks for video playback
-// 
-@protocol KCMoviePlayerDelegate <NSObject>
+//
+@protocol KCVideoDelegate <NSObject>
+
+@optional
+
+// Called when the Kamcord share view is dismissed
+- (void)kamcordViewDidDisappear;
 
 // Called when the movie player is presented
 - (void)moviePlayerDidAppear;
@@ -165,8 +169,16 @@ typedef enum
 // Called when the movie player is dismissed
 - (void)moviePlayerDidDisappear;
 
-@end
+// Called when a thumbnail image for the video is ready
+- (void)thumbnailReady:(CGImageRef)thumbnail;
 
+#if KCUNITY
+// Called when the thumbnail image for the video is ready
+- (void)thumbnailReadyAtFilePath:(NSString *)thumbnailFilePath;
+#endif
+
+
+@end
 
 
 
@@ -386,8 +398,8 @@ typedef enum
 
 // The object that will receive callbacks when the movie player
 // is show and dismissed.
-+ (void)setMoviePlayerDelegate:(id <KCMoviePlayerDelegate>)delegate;
-+ (id <KCMoviePlayerDelegate>)moviePlayerDelegate;
++ (void)setKCVideoDelegate:(id <KCVideoDelegate>)delegate;
++ (id <KCVideoDelegate>)KCVideoDelegate;
 
 
 // The object that will receive callbacks about sharing state.
