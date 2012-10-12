@@ -81,12 +81,6 @@ public class Kamcord
     private static extern void _KamcordShowView();
     
 	[DllImport ("__Internal")]
-    private static extern void _KamcordSetEnableSynchronousConversionUI(bool enable);
-    
-	[DllImport ("__Internal")]
-    private static extern bool _KamcordEnableSynchronousConversionUI();
-    
-	[DllImport ("__Internal")]
     private static extern void _KamcordSetShowVideoControlsOnReplay(bool showControls);
     
 	[DllImport ("__Internal")]
@@ -413,12 +407,10 @@ public class Kamcord
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor)
 		{
-			// Debug.Log ("Kamcord.IsRecording");
 			return _KamcordIsRecording();
 		}
 		else
 		{
-			Debug.Log ("[NOT CALLED] Kamcord.IsRecording");
 			return false;
 		}
 	}
@@ -471,29 +463,6 @@ public class Kamcord
 		}
 	}
 	
-	public static void SetEnableSynchronousConversionUI(bool enable)
-	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
-		{
-			Debug.Log ("Kamcord.SetEnableSynchronousConversionUI");
-			_KamcordSetEnableSynchronousConversionUI(enable);
-		} else {
-			Debug.Log ("[NOT CALLED] Kamcord.SetEnableSynchronousConversionUI");
-		}
-	}
-    
-    public static bool EnableSynchronousConversionUI()
-	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
-		{
-			Debug.Log ("Kamcord.EnableSynchronousConversionUI");
-			return _KamcordEnableSynchronousConversionUI();
-		} else {
-			Debug.Log ("[NOT CALLED] Kamcord.EnableSynchronousConversionUI");
-			return false;
-		}
-	}
-    
     public static void SetShowVideoControlsOnReplay(bool showControls)
 	{
 		if (Application.platform != RuntimePlatform.OSXEditor)
