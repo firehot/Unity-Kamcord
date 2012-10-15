@@ -14,7 +14,7 @@
 #import "Common/View/KCViewController.h"
 #import "Common/Core/Audio/KCAudio.h"
 
-#define KAMCORD_VERSION "0.9.7"
+FOUNDATION_EXPORT NSString * const KamcordVersion;
 
 
 // --------------------------------------------------------
@@ -289,6 +289,7 @@ typedef enum
 // Displays the Kamcord view inside the previously set parentViewController;
 + (void)showView;
 
+#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
 // When the user shares a video, should the Kamcord UI wait for
 // the video to finish converting before automatically dismissing 
 // the share screen?
@@ -297,6 +298,7 @@ typedef enum
 // hit if the video processing is happening in the background
 // while the user is playing the next round or level.
 + (void)setEnableSynchronousConversionUI:(BOOL)on;
+#endif
 + (BOOL)enableSynchronousConversionUI;
 
 
@@ -500,5 +502,7 @@ typedef enum
 + (unsigned int)resolutionScaleFactor;
 
 + (KCAudio *)audioBackground;
+
++ (BOOL)isIPhone5;
 
 @end

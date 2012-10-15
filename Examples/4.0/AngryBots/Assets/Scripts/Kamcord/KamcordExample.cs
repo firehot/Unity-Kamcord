@@ -14,7 +14,6 @@ public class KamcordExample : MonoBehaviour
 								 	"What u lookin' at Willis?",
 									"Tastes like chicken");
 		Kamcord.SetShowVideoControlsOnReplay(false);
-		Kamcord.SetEnableSynchronousConversionUI(true);
 		Debug.Log ("KamcordExample Start() end");
 	}
 

@@ -14,7 +14,7 @@
 #import "Common/View/KCViewController.h"
 #import "Common/Core/Audio/KCAudio.h"
 
-#define KAMCORD_VERSION "0.9.7"
+FOUNDATION_EXPORT NSString * const KamcordVersion;
 
 
 // --------------------------------------------------------
@@ -294,7 +294,6 @@ typedef enum
 // This can be turned on for games that experience a performance
 // hit if the video processing is happening in the background
 // while the user is playing the next round or level.
-+ (void)setEnableSynchronousConversionUI:(BOOL)on;
 + (BOOL)enableSynchronousConversionUI;
 
 
@@ -498,5 +497,7 @@ typedef enum
 + (unsigned int)resolutionScaleFactor;
 
 + (KCAudio *)audioBackground;
+
++ (BOOL)isIPhone5;
 
 @end

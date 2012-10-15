@@ -14,7 +14,7 @@
 #import "Common/View/KCViewController.h"
 #import "Common/Core/Audio/KCAudio.h"
 
-#define KAMCORD_VERSION "0.9.8"
+FOUNDATION_EXPORT NSString * const KamcordVersion;
 
 
 // --------------------------------------------------------
@@ -502,5 +502,7 @@ typedef enum
 + (unsigned int)resolutionScaleFactor;
 
 + (KCAudio *)audioBackground;
+
++ (BOOL)isIPhone5;
 
 @end
