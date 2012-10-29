@@ -155,14 +155,17 @@ typedef enum
 
 
 // --------------------------------------------------------
-// Callbacks for video playback
+// General Kamcord callbacks
 //
-@protocol KCVideoDelegate <NSObject>
+@protocol KamcordDelegate <NSObject>
 
 @optional
 
+// Called when the Kamcord main view is dismissed
+- (void)mainViewDidDisappear;
+
 // Called when the Kamcord share view is dismissed
-- (void)kamcordViewDidDisappear;
+- (void)shareViewDidDisappear;
 
 // Called when the movie player is presented
 - (void)moviePlayerDidAppear;
@@ -177,7 +180,6 @@ typedef enum
 // Called when the thumbnail image for the video is ready
 - (void)thumbnailReadyAtFilePath:(NSString *)thumbnailFilePath;
 #endif
-
 
 @end
 
@@ -223,12 +225,14 @@ typedef enum
 
 // Social media
 // YouTube
-+ (void) setYouTubeTitle:(NSString *)title
-             description:(NSString *)description 
-                    tags:(NSString *)tags;
++ (void)setYouTubeTitle:(NSString *)title
+            description:(NSString *)description
+                   tags:(NSString *)tags;
++ (void)setYouTubeVideoCategory:(NSString *)category;
 + (NSString *)youtubeTitle;
 + (NSString *)youtubeDescription;
 + (NSString *)youtubeTags;
++ (NSString *)youtubeCategory;
 
 + (void) setDefaultYouTubeMessage:(NSString *)message;
 + (NSString *)defaultYouTubeMessage;
@@ -355,9 +359,11 @@ typedef enum
 
 #if KCUNITY
 + (void)setAudioSettings:(int)sampleRate
-              bufferSize:(int)bufferSize;
+              bufferSize:(int)bufferSize
+             numChannels:(int)numChannels;
 + (int)audioSampleRate;
 + (int)audioBufferSize;
++ (int)numAudioChannels;
 + (void)writeAudioData:(float [])data
                 length:(size_t)nsamples
            numChannels:(int)numChannels;
@@ -400,10 +406,9 @@ typedef enum
 // you called [Kamcord stopRecording].
 + (void)presentVideoPlayerInViewController:(UIViewController *)parentViewController;
 
-// The object that will receive callbacks when the movie player
-// is show and dismissed.
-+ (void)setKCVideoDelegate:(id <KCVideoDelegate>)delegate;
-+ (id <KCVideoDelegate>)KCVideoDelegate;
+// The object that will receive all non-share related callbacks.
++ (void)setDelegate:(id <KamcordDelegate>)delegate;
++ (id <KamcordDelegate>)delegate;
 
 
 // The object that will receive callbacks about sharing state.

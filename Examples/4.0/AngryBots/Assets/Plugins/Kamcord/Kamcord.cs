@@ -4,7 +4,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 
 //////////////////////////////////////////////////////////////////
-/// Version: 0.9.9
+/// Version: 0.9.91
 //////////////////////////////////////////////////////////////////
 
 public class Kamcord
@@ -34,6 +34,9 @@ public class Kamcord
     private static extern void _KamcordSetYouTubeSettings(string title,
                                                           string description,
                                                           string tags);
+	
+	[DllImport ("__Internal")]
+	private static extern void _KamcordSetYouTubeVideoCategory(string category);
     
     [DllImport ("__Internal")]
     private static extern void _KamcordSetDefaultFacebookMessage(string message);
@@ -92,7 +95,7 @@ public class Kamcord
     ///
     
 	[DllImport ("__Internal")]
-	private static extern void _KamcordSetAudioSettings(int sampleRate, int bufferSize);
+	private static extern void _KamcordSetAudioSettings(int sampleRate, int bufferSize, int numChannels);
 	
 	[DllImport ("__Internal")]
 	private static extern void _KamcordWriteAudioData(float [] data,
@@ -182,6 +185,16 @@ public class Kamcord
 		Trailer
 	};
 	
+	// Possible values of the YouTube video category
+	public enum YouTubeVideoCategory
+	{
+		Comedy,
+		Education,
+		Entertainment,
+		Games,
+		Music
+	};
+	
 	
 	//////////////////////////////////////////////////////////////////
     /// Implementations
@@ -197,7 +210,7 @@ public class Kamcord
 						    VideoResolution videoResolution)
 	{
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.Init");
 			_KamcordInit(devKey, devSecret, appName, deviceOrientation.ToString(), videoResolution.ToString());
@@ -218,7 +231,7 @@ public class Kamcord
                                            string description)
 	{
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.SetFacebookSettings");
 			_KamcordSetFacebookSettings(title, caption, description);
@@ -234,10 +247,24 @@ public class Kamcord
                                           string tags)
 	{
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.SetYouTubeSettings");
 			_KamcordSetYouTubeSettings(title, description, tags);
+		}
+		else
+		{
+			Debug.Log ("[NOT CALLED] Kamcord.SetYouTubeSettings");
+		}
+	}
+	
+	public static void SetYouTubeVideoCategory(YouTubeVideoCategory category)
+	{
+		// Call plugin only when running on real device
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			Debug.Log ("Kamcord.SetYouTubeVideoCategory");
+			_KamcordSetYouTubeVideoCategory(category.ToString());
 		}
 		else
 		{
@@ -248,7 +275,7 @@ public class Kamcord
     public static void SetDefaultFacebookMessage(string message)
 	{
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.SetDefaultFacebookMessage");
 			_KamcordSetDefaultFacebookMessage(message);
@@ -262,7 +289,7 @@ public class Kamcord
     public static void SetDefaultTweet(string tweet)
 	{
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.SetDefaultTweet");
 			_KamcordSetDefaultTweet(tweet);
@@ -276,7 +303,7 @@ public class Kamcord
     public static void SetDefaultYouTubeMessage(string message)
     {
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.SetDefaultYouTubeMessage");
 			_KamcordSetDefaultYouTubeMessage(message);
@@ -291,7 +318,7 @@ public class Kamcord
                                                              string body)
     {
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.SetDefaultEmailSubjectAndBody");
 			_KamcordSetDefaultEmailSubjectAndBody(subject, body);
@@ -306,7 +333,7 @@ public class Kamcord
                                                 double score)
 	{
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.SetLevelAndScore");
 			_KamcordSetLevelAndScore(level, score);
@@ -325,7 +352,7 @@ public class Kamcord
 	public static bool StartRecording()
 	{
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.StartRecording");
 			return _KamcordStartRecording();
@@ -341,7 +368,7 @@ public class Kamcord
 	public static bool StopRecording()
 	{
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.StopRecording");
 			return _KamcordStopRecording();
@@ -357,7 +384,7 @@ public class Kamcord
 	public static bool StopRecordingAndDeferProcessing()
 	{
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.StopRecordingAndDeferProcessing");
 			return _KamcordStopRecordingAndDeferProcessing();
@@ -373,7 +400,7 @@ public class Kamcord
 	public static bool Pause()
 	{
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.Pause");
 			return _KamcordPause();
@@ -389,7 +416,7 @@ public class Kamcord
 	public static bool Resume()
 	{
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.Resume");
 			return _KamcordResume();
@@ -405,7 +432,7 @@ public class Kamcord
 	public static bool IsRecording()
 	{
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			return _KamcordIsRecording();
 		}
@@ -415,13 +442,13 @@ public class Kamcord
 		}
 	}
 	
-	public static void SetAudioSettings(int sampleRate, int bufferSize)
+	public static void SetAudioSettings(int sampleRate, int bufferSize, int numChannels)
 	{
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.SetAudioSettings");
-			_KamcordSetAudioSettings(sampleRate, bufferSize);
+			_KamcordSetAudioSettings(sampleRate, bufferSize, numChannels);
 		}
 		else
 		{
@@ -435,7 +462,7 @@ public class Kamcord
 									  int numChannels)
 	{
 		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			// Debug.Log ("Kamcord.WriteAudioData");
 			_KamcordWriteAudioData(data, nsamples, numChannels);
@@ -454,7 +481,7 @@ public class Kamcord
 	// Show Kamcord view
 	public static void ShowView()
 	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.ShowView");
 			_KamcordShowView();
@@ -465,7 +492,7 @@ public class Kamcord
 	
     public static void SetShowVideoControlsOnReplay(bool showControls)
 	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.ShowView");
 			_KamcordShowView();
@@ -476,7 +503,7 @@ public class Kamcord
     
     public static bool ShowVideoControlsOnReplay()
 	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.ShowView");
 			return _KamcordShowVideoControlsOnReplay();
@@ -491,7 +518,7 @@ public class Kamcord
     ///
     public static bool CancelConversionForLatestVideo()
     {
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.CancelConversionForLatestVideo");
 			return _KamcordCancelConversionForLatestVideo();
@@ -503,7 +530,7 @@ public class Kamcord
 		
     public static void SetMaximumVideoLength(uint seconds)
     {
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.SetMaximumVideoLength");
 			_KamcordSetMaximumVideoLength(seconds);
@@ -514,7 +541,7 @@ public class Kamcord
 	
     public static uint MaximumVideoLength()
 	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.MaximumVideoLength");
 			return _KamcordMaximumVideoLength();
@@ -531,7 +558,7 @@ public class Kamcord
 	
 	public static void SubscribeToCallbacks(bool subscribe)
 	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.SubscribeToCallbacks");
 			KamcordCallbackListener.SubscribeToKamcordNotifications(subscribe);
@@ -541,6 +568,34 @@ public class Kamcord
 		}
 	}
 	
+	public static int GetNumChannelsFromSpeakerMode(AudioSpeakerMode speakerMode)
+	{
+		switch (AudioSettings.speakerMode)
+		{
+		case AudioSpeakerMode.Mono:
+			return 1;
+			
+		case AudioSpeakerMode.Stereo:
+			return 2;
+			
+		case AudioSpeakerMode.Quad:
+			return 4;
+			
+		case AudioSpeakerMode.Surround:
+		case AudioSpeakerMode.Mode5point1:
+			return 5;
+			
+		case AudioSpeakerMode.Mode7point1:
+			return 7;
+		
+		case AudioSpeakerMode.Prologic:
+			return 2;
+			
+		case AudioSpeakerMode.Raw:
+		default:
+			return 2;
+		}
+	}
 	
 	
 	//////////////////////////////////////////////////////////////////
@@ -555,7 +610,7 @@ public class Kamcord
 	
     public static void ShowFacebookLoginView()
 	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.ShowFacebookLoginView");
 			_KamcordShowFacebookLoginView();
@@ -566,7 +621,7 @@ public class Kamcord
     
     public static void ShowTwitterAuthentication()
 	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.ShowTwitterAuthentication");
 			_KamcordShowTwitterAuthentication();
@@ -580,7 +635,7 @@ public class Kamcord
     
     public static bool FacebookIsAuthenticated()
 	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.FacebookIsAuthenticated");
 			return _KamcordFacebookIsAuthenticated();
@@ -592,7 +647,7 @@ public class Kamcord
     
     public static bool TwitterIsAuthenticated()
 	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.TwitterIsAuthenticated");
 			return _KamcordTwitterIsAuthenticated();
@@ -604,7 +659,7 @@ public class Kamcord
     
     public static bool YouTubeIsAuthenticated()
 	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.YouTubeIsAuthenticated");
 			return _KamcordYouTubeIsAuthenticated();
@@ -616,7 +671,7 @@ public class Kamcord
     
 	public static void PerformFacebookLogout()
 	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.PerformFacebookLogout");
 			_KamcordPerformFacebookLogout();
@@ -627,7 +682,7 @@ public class Kamcord
     
     public static void PerformYouTubeLogout()
 	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.PerformYouTubeLogout");
 			_KamcordPerformYouTubeLogout();
@@ -641,7 +696,7 @@ public class Kamcord
                                              bool shareOnTwitter,
                                              bool shareOnYouTube)
 	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.ShareVideoWithMessage");
 			return _KamcordShareVideoWithMessage(message, shareOnFacebook, shareOnTwitter, shareOnYouTube);

@@ -85,6 +85,12 @@
      <None Include="Assets\Shaders\BackgroundAndCharacters\SuperSimpleSelfIllumination.shader" />
      <None Include="Assets\Shaders\Fx\ParticleBlend.shader" />
      <None Include="Assets\Shaders\Fx\InterlacePatternAdditive.shader" />
+ <Reference Include="Assets\AssetStoreTools\Editor\AssetStoreTools">
+ <HintPath>Assets\AssetStoreTools\Editor\AssetStoreTools.dll</HintPath>
+ </Reference>
+ <Reference Include="Assets\AssetStoreTools\Editor\AssetStoreToolsExtra">
+ <HintPath>Assets\AssetStoreTools\Editor\AssetStoreToolsExtra.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">

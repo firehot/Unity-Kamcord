@@ -21,9 +21,9 @@
 
 
 // The share delegate
-@property (assign, nonatomic) id <KCShareDelegate> delegate;
+@property (assign, nonatomic) id <KamcordDelegate> delegate;
+@property (assign, nonatomic) id <KCShareDelegate> shareDelegate;
 
-@property (assign, nonatomic) id <KCVideoDelegate> videoPlayerDelegate;
 @property (retain, nonatomic) KCVideoProcessingAndShareManager * shareManager; 
 @property (assign, nonatomic) KCVideo * latestVideo;
 @property (assign, nonatomic) UIViewController * parentViewController;

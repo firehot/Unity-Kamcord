@@ -8,7 +8,7 @@
 
 #import "Kamcord.h"
 
-@interface KCUnityDelegate : NSObject<KCVideoDelegate>
+@interface KCUnityDelegate : NSObject<KamcordDelegate>
 
 - (id)init;
 - (void)dealloc;

@@ -4,11 +4,16 @@ public class KamcordAudioRecorder : MonoBehaviour
 {
 	void Awake ()
 	{
+		// Get the buffer size and num buffers
 		int bufferSize;
 		int numBuffers;
 		AudioSettings.GetDSPBufferSize(out bufferSize, out numBuffers);
-		Kamcord.SetAudioSettings(AudioSettings.outputSampleRate, bufferSize);
-		Kamcord.SubscribeToCallbacks(true);
+		
+		// Get the number of channels
+		int numChannels = Kamcord.GetNumChannelsFromSpeakerMode(AudioSettings.speakerMode);
+		
+		// Tell Kamcord
+		Kamcord.SetAudioSettings(AudioSettings.outputSampleRate, bufferSize, numChannels);
 	}
 	
 	void OnAudioFilterRead(float [] data, int numChannels)

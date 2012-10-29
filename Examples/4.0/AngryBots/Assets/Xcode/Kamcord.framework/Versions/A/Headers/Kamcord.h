@@ -156,7 +156,7 @@ typedef enum
 // --------------------------------------------------------
 // Callbacks for video playback
 //
-@protocol KCVideoDelegate <NSObject>
+@protocol KamcordDelegate <NSObject>
 
 @optional
 
@@ -222,11 +222,13 @@ typedef enum
 // Social media
 // YouTube
 + (void) setYouTubeTitle:(NSString *)title
-             description:(NSString *)description 
+             description:(NSString *)description
                     tags:(NSString *)tags;
++ (void)setYouTubeVideoCategory:(NSString *)category;
 + (NSString *)youtubeTitle;
 + (NSString *)youtubeDescription;
 + (NSString *)youtubeTags;
++ (NSString *)youtubeCategory;
 
 + (void) setDefaultYouTubeMessage:(NSString *)message;
 + (NSString *)defaultYouTubeMessage;
@@ -353,6 +355,8 @@ typedef enum
               bufferSize:(int)bufferSize;
 + (int)audioSampleRate;
 + (int)audioBufferSize;
++ (int)numAudioChannels;
+
 + (void)writeAudioData:(float [])data
                 length:(size_t)nsamples
            numChannels:(int)numChannels;
@@ -395,10 +399,9 @@ typedef enum
 // you called [Kamcord stopRecording].
 + (void)presentVideoPlayerInViewController:(UIViewController *)parentViewController;
 
-// The object that will receive callbacks when the movie player
-// is show and dismissed.
-+ (void)setKCVideoDelegate:(id <KCVideoDelegate>)delegate;
-+ (id <KCVideoDelegate>)KCVideoDelegate;
+// The object that will receive all non-share related callbacks.
++ (void)setDelegate:(id <KamcordDelegate>)delegate;
++ (id <KamcordDelegate>)delegate;
 
 
 // The object that will receive callbacks about sharing state.

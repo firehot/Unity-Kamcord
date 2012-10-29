@@ -60,7 +60,8 @@
 - (BOOL) uploadVideoFile:(NSString *)path
                withTitle:(NSString *)title
              description:(NSString *)description
-                keywords:(NSString *)keywords;
+                keywords:(NSString *)keywords
+                category:(NSString *)category;
 
 // TODO: test somehow
 - (void) restartUpload:(NSString *)path;
