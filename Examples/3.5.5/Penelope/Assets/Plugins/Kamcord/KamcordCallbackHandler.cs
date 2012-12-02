@@ -31,4 +31,14 @@ public class KamcordCallbackHandler : MonoBehaviour, KamcordCallbackInterface
 	{
 		// Implement as you'd like
 	}
+	
+	public void VideoWillBeginUploading(string url)
+	{
+		// Implement as you'd like
+	}
+	
+	public void VideoFinishedUploading(bool success)
+	{
+		// Implement as you'd like
+	}
 }

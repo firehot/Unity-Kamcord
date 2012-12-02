@@ -73,6 +73,9 @@ function Start()
 		thisTransform.position = spawn.transform.position;
 	
 	// Start recording gameplay
+	Debug.Log("About to set video category.");
+	Kamcord.SetYouTubeVideoCategory(Kamcord.YouTubeVideoCategory.Entertainment);
+	Debug.Log("Set video category.");
 	Kamcord.StartRecording();
 }
 

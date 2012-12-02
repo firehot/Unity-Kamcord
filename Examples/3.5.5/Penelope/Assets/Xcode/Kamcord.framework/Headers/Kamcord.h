@@ -181,6 +181,12 @@ typedef enum
 - (void)thumbnailReadyAtFilePath:(NSString *)thumbnailFilePath;
 #endif
 
+// Called when the video has started to upload
+- (void)videoWillUploadToURL:(NSString *)kamcordURLString;
+
+// Called when the video has finished uploading
+- (void)videoFinishedUploadingWithSuccess:(BOOL)success;
+
 @end
 
 

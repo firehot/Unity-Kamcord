@@ -16,4 +16,8 @@ public interface KamcordCallbackInterface
 	// The thumbnail for the latest video is ready at
 	// this absolute filepath.
 	void VideoThumbnailReadyAtFilePath(string filepath);
+	
+	// When the video begins and finishes uploading
+	void VideoWillBeginUploading(string url);
+	void VideoFinishedUploading(bool success);
 }

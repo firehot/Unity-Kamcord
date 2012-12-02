@@ -73,4 +73,24 @@ public class KamcordCallbackListener : MonoBehaviour
 			callbackHandler.VideoThumbnailReadyAtFilePath(filepath);
 		}
 	}
+	
+	// When the video begins and finishes uploading
+	private void VideoWillUploadToURL(string url)
+	{
+		Debug.Log ("VideoWillBeginUploading: " + url);
+		if (callbackHandler != null)
+		{
+			callbackHandler.VideoWillBeginUploading(url);
+		}
+	}
+	
+	private void VideoUploadedWithSuccess(string success)
+	{
+		Debug.Log ("VideoFinishedUploading: " + success);
+		if (callbackHandler != null)
+		{
+			bool truthValue = (success == "true" ? true : false);
+			callbackHandler.VideoFinishedUploading(truthValue);
+		}
+	}
 }

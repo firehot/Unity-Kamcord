@@ -44,7 +44,8 @@ print "DisplayHeight: $DisplayHeight\n";
 # 1. Add the following frameworks and Resources to the project:
 #       - Kamcord
 #       - Resources (for Kamcord)
-my $unityAssetsXcodePath = getcwd() . "/Assets/Xcode/";
+my $curdir               = getcwd();
+my $unityAssetsXcodePath = $curdir . "/Assets/Xcode/";
 my $xcodeOutputPath      = $PublishFile;
 
 print "Unity Assets/Xcode path: " . $unityAssetsXcodePath . "\n";
@@ -55,7 +56,7 @@ closedir(XCODEDIR);
 
 # Copy files from Unity Assets/Xcode/ to the generated Xcode project
 my $toPath = $PublishFile . "/Kamcord/";
-`mkdir -p $toPath`;
+`mkdir -p "$toPath"`;
 foreach my $file (@files)
 {
     if ($file =~ /\.meta/) {
@@ -67,15 +68,17 @@ foreach my $file (@files)
     {
         # `echo $file > log.txt`;
         my $fromPath = $unityAssetsXcodePath . $file;
-        `cp -R $fromPath $toPath`;
+        `cp -R "$fromPath" "$toPath"`;
     }
 }
 
 # Erase all annoying .meta files
-my @metafiles = `find $toPath -name \\*.meta -print`;
+my @metafiles = `find "$toPath" -name \\*.meta -print`;
+print "Erasing meta files\n";
 foreach my $metafile (@metafiles)
 {
-    `rm $metafile`;
+    print "$metafile\n";
+    `rm "$metafile"`;
 }
 
 
@@ -146,7 +149,7 @@ close(AppControllerFH);
 
 ### Now execute the second post process build player script
 my $secondScriptExecutor = "python";
-my $secondPostProcesScriptName = join("/", getcwd(), "Assets", "Editor", "KamcordPostprocessBuildPlayer2");
+my $secondPostProcesScriptName = join("/", $curdir,"Assets", "Editor", "KamcordPostprocessBuildPlayer2");
 my @cmd = ($secondScriptExecutor, $secondPostProcesScriptName, $PublishFile);
 
 print "[Executing @cmd.]\n";
