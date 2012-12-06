@@ -14,6 +14,8 @@
 #import "Common/View/KCViewController.h"
 #import "Common/Core/Audio/KCAudio.h"
 
+#import "Common/Core/KCAnalytics.h"
+
 FOUNDATION_EXPORT NSString * const KamcordVersion;
 
 
@@ -180,6 +182,12 @@ typedef enum
 // Called when the thumbnail image for the video is ready
 - (void)thumbnailReadyAtFilePath:(NSString *)thumbnailFilePath;
 #endif
+
+// Called when the video has started to upload
+- (void)videoWillUploadToURL:(NSString *)kamcordURLString;
+
+// Called when the video has finished uploading
+- (void)videoFinishedUploadingWithSuccess:(BOOL)success;
 
 @end
 
@@ -456,7 +464,9 @@ typedef enum
 + (BOOL)shareVideoOnFacebook:(BOOL)shareFacebook
                      Twitter:(BOOL)shareTwitter
                      YouTube:(BOOL)shareYouTube
-                 withMessage:(NSString *)message;
+                       Email:(BOOL)shareEmail
+                 withMessage:(NSString *)message
+mailViewParentViewController:(UIViewController *)parentViewController;
 
 // Show the send email dialog with the Kamcord URL in the message.
 // Any additional body text you'd like to add should be passed in the
@@ -509,5 +519,10 @@ typedef enum
 + (KCAudio *)audioBackground;
 
 + (BOOL)isIPhone5;
++ (BOOL)checkInternet;
+
++ (void)track:(NSString *)eventName
+   properties:(NSDictionary *)properties
+analyticsType:(KC_ANALYTICS_TYPE)analyticsType;
 
 @end

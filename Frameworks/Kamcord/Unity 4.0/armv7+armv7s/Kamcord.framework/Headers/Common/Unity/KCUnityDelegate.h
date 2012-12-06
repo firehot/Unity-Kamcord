@@ -28,4 +28,10 @@
 // Called when the thumbnail image for the video is ready
 - (void)thumbnailReadyAtFilePath:(NSString *)thumbnailFilePath;
 
+// Called when the video upload begins
+- (void)videoWillUploadToURL:(NSString *)kamcordURLString;
+
+// Called when the video upload finishes
+- (void)videoFinishedUploadingWithSuccess:(BOOL)success;
+
 @end

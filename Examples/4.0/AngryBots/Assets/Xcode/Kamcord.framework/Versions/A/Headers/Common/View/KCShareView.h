@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Kamcord.h"
 #import "KCViewController.h"
 
 @class KCVideo;
 
-@interface KCShareView : KCViewController
+@interface KCShareView : KCViewController <KCShareDelegate>
 
 - (id)initWithVideo:(KCVideo *)video;
 - (void)dealloc;
