@@ -20,6 +20,7 @@ public class KamcordInitializer : MonoBehaviour
 	{
 		DontDestroyOnLoad(this);
 		Kamcord.Init(developerKey, developerSecret, appName, deviceOrientation, videoResolution);
+		Kamcord.SubscribeToCallbacks(true);
 	}
 
 	void OnApplicationPause(bool pause)

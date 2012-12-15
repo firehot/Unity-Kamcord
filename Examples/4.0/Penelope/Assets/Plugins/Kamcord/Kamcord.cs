@@ -4,7 +4,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 
 //////////////////////////////////////////////////////////////////
-/// Version: 0.9.95
+/// Version: 0.9.96
 //////////////////////////////////////////////////////////////////
 
 public class Kamcord
@@ -82,6 +82,9 @@ public class Kamcord
     ///
     [DllImport ("__Internal")]
     private static extern void _KamcordShowView();
+	
+	[DllImport ("__Internal")]
+    private static extern void _KamcordShowViewDeprecated();
     
 	[DllImport ("__Internal")]
     private static extern void _KamcordSetShowVideoControlsOnReplay(bool showControls);
@@ -121,8 +124,8 @@ public class Kamcord
     /// 
     
 	// TODO:
-	// [DllImport ("__Internal")]
-	// void _KamcordPresentVideoPlayerInViewController(UIViewController * parentViewController);
+	[DllImport ("__Internal")]
+	private static extern void _KamcordPresentVideoPlayerFullscreen();
     
     // TODO: setShareDelegate
     //       shareDelegate
@@ -490,12 +493,23 @@ public class Kamcord
 		}
 	}
 	
+	public static void ShowViewDeprecated()
+	{
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			Debug.Log ("Kamcord.ShowViewDeprecated");
+			_KamcordShowViewDeprecated();
+		} else {
+			Debug.Log ("[NOT CALLED] Kamcord.ShowView");
+		}
+	}
+	
     public static void SetShowVideoControlsOnReplay(bool showControls)
 	{
 		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.ShowView");
-			_KamcordShowView();
+			_KamcordSetShowVideoControlsOnReplay(showControls);
 		} else {
 			Debug.Log ("[NOT CALLED] Kamcord.ShowView");
 		}
@@ -561,7 +575,6 @@ public class Kamcord
 		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.SubscribeToCallbacks");
-			KamcordCallbackListener.SubscribeToKamcordNotifications(subscribe);
 			_KamcordSubscribeToCallbacks(subscribe);
 		} else {
 			Debug.Log ("[NOT CALLED] Kamcord.SubscribeToCallbacks");
@@ -602,8 +615,16 @@ public class Kamcord
     /// Custom Sharing UI
     /// 
     
-	// TODO:
-	// void PresentVideoPlayerInViewController(UIViewController * parentViewController);
+	public static void PresentVideoPlayerFullscreen()
+	{
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			Debug.Log ("Kamcord.PresentVideoPlayerFullscreen");
+			_KamcordPresentVideoPlayerFullscreen();
+		} else {
+			Debug.Log ("[NOT CALLED] Kamcord.PresentVideoPlayerFullscreen");
+		}
+	}
     
     // TODO: setShareDelegate
     //       shareDelegate

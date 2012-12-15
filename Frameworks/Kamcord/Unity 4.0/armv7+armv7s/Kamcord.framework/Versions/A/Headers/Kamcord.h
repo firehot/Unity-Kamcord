@@ -62,6 +62,12 @@ typedef enum
     VIDEO_PROCESSING_ERROR,
 } KCShareStatus;
 
+typedef enum
+{
+    SUCCESS,
+    NO_ACCOUNT,
+    ACCESS_NOT_GRANTED,
+} KCTwitterAuthStatus;
 
 
 // --------------------------------------------------------
@@ -96,7 +102,7 @@ typedef enum
 // The following are only relevant for Option 1:
 // Auth requests
 - (void)facebookAuthFinishedWithSuccess:(BOOL)success;
-- (void)twitterAuthFinishedWithSuccess:(BOOL)success;
+- (void)twitterAuthFinishedWithSuccess:(BOOL)success status:(KCTwitterAuthStatus)statu;
 - (void)youTubeAuthFinishedWithSuccess:(BOOL)success;
 
 // Beginning of share process
@@ -111,6 +117,7 @@ typedef enum
 - (void)twitterShareFinishedWithSuccess:(BOOL)success error:(KCShareStatus)error;
 - (void)youTubeUploadFinishedWithSuccess:(BOOL)success error:(KCShareStatus)error;
 
+- (void)shareCancelled;
 
 //
 // Retrying failed uploads/shares
@@ -162,11 +169,11 @@ typedef enum
 
 @optional
 
-// Called when the Kamcord share view is dismissed
-- (void)kamcordViewDidDisappear;
+// Called when the Kamcord main view is dismissed
+- (void)mainViewDidDisappear;
 
-// Called when the movie player is presented
-- (void)moviePlayerDidAppear;
+// Called when the Kamcord share view is dismissed
+- (void)shareViewDidDisappear;
 
 // Called when the movie player is dismissed
 - (void)moviePlayerDidDisappear;
@@ -179,6 +186,11 @@ typedef enum
 - (void)thumbnailReadyAtFilePath:(NSString *)thumbnailFilePath;
 #endif
 
+// Called when the video has started to upload
+- (void)videoWillUploadToURL:(NSString *)kamcordURLString;
+
+// Called when the video has finished uploading
+- (void)videoFinishedUploadingWithSuccess:(BOOL)success;
 
 @end
 
@@ -291,6 +303,9 @@ typedef enum
 // Displays the Kamcord view inside the previously set parentViewController;
 + (void)showView;
 
+// Displays the old Kamcord View, deprecated since 0.9.96
++ (void)showViewDeprecated;
+
 // When the user shares a video, should the Kamcord UI wait for
 // the video to finish converting before automatically dismissing 
 // the share screen?
@@ -354,7 +369,8 @@ typedef enum
 
 #if KCUNITY
 + (void)setAudioSettings:(int)sampleRate
-              bufferSize:(int)bufferSize;
+              bufferSize:(int)bufferSize
+             numChannels:(int)numChannels;
 + (int)audioSampleRate;
 + (int)audioBufferSize;
 + (int)numAudioChannels;
@@ -511,5 +527,8 @@ mailViewParentViewController:(UIViewController *)parentViewController;
 + (void)track:(NSString *)eventName
    properties:(NSDictionary *)properties
 analyticsType:(KC_ANALYTICS_TYPE)analyticsType;
+
++ (NSString *)kamcordSDKVersion;
+
 
 @end

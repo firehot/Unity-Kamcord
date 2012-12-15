@@ -85,7 +85,7 @@ function OnEndGame()
 	this.enabled = false;
 	
 	// Stop gameplay recording and show replay/share view
-	Kamcord.StopRecordingAndDeferProcessing();
+	Kamcord.StopRecording();
 	Kamcord.ShowView();
 }
 

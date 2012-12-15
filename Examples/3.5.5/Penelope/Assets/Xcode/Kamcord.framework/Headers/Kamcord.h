@@ -62,6 +62,12 @@ typedef enum
     VIDEO_PROCESSING_ERROR,
 } KCShareStatus;
 
+typedef enum
+{
+    SUCCESS,
+    NO_ACCOUNT,
+    ACCESS_NOT_GRANTED,
+} KCTwitterAuthStatus;
 
 
 // --------------------------------------------------------
@@ -96,7 +102,7 @@ typedef enum
 // The following are only relevant for Option 1:
 // Auth requests
 - (void)facebookAuthFinishedWithSuccess:(BOOL)success;
-- (void)twitterAuthFinishedWithSuccess:(BOOL)success;
+- (void)twitterAuthFinishedWithSuccess:(BOOL)success status:(KCTwitterAuthStatus)status;
 - (void)youTubeAuthFinishedWithSuccess:(BOOL)success;
 
 // Beginning of share process
@@ -111,6 +117,7 @@ typedef enum
 - (void)twitterShareFinishedWithSuccess:(BOOL)success error:(KCShareStatus)error;
 - (void)youTubeUploadFinishedWithSuccess:(BOOL)success error:(KCShareStatus)error;
 
+- (void)shareCancelled;
 
 //
 // Retrying failed uploads/shares
@@ -299,7 +306,10 @@ typedef enum
 //
 
 // Displays the Kamcord view inside the previously set parentViewController;
-+ (void)showView;
++ (void) showView;
+
+// Displays the old Kamcord View, deprecated since 0.9.96
++ (void)showViewDeprecated;
 
 #if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
 // When the user shares a video, should the Kamcord UI wait for
@@ -524,5 +534,8 @@ mailViewParentViewController:(UIViewController *)parentViewController;
 + (void)track:(NSString *)eventName
    properties:(NSDictionary *)properties
 analyticsType:(KC_ANALYTICS_TYPE)analyticsType;
+
++ (NSString *)kamcordSDKVersion;
+
 
 @end

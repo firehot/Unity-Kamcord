@@ -4,31 +4,88 @@
 // -------------------------------------------------------------------------------
 
 using UnityEngine;
+using System.Collections.Generic;
 
-public class KamcordCallbackHandler : MonoBehaviour, KamcordCallbackInterface
+public class KamcordCallbackHandler : MonoBehaviour
 {
-	// The Kamcord share view was dismissed
-	public void KamcordViewDidDisappear()
+	// Methods to take care of subscribing and unsubscribing to callbacks
+	private static List<KamcordCallbackInterface> listeners = new List<KamcordCallbackInterface>();
+	
+	
+	// Call this static method to have your object receive all of the
+	// KamcordCallbackInterface callbacks.
+	public static void AddListener(KamcordCallbackInterface listener)
 	{
-		// Implement as you'd like
+		if (!listeners.Contains(listener))
+		{
+			listeners.Add(listener);
+		}
+	}
+	
+	public static void RemoveListener(KamcordCallbackInterface listener)
+	{
+		listeners.Remove(listener);
+	}
+	
+	
+	// The Kamcord share view was dismissed
+	private void KamcordViewDidDisappear(string empty)
+	{
+		Debug.Log ("KamcordViewDidDisappear");
+		foreach (KamcordCallbackInterface listener in listeners)
+		{
+			listener.MoviePlayerDidAppear();
+		}
 	}
 	
 	// The video replay view appeared
-	public void MoviePlayerDidAppear()
+	private void MoviePlayerDidAppear(string empty)
 	{
-		// Implement as you'd like
+		Debug.Log ("MoviePlayerDidAppear");
+		foreach (KamcordCallbackInterface listener in listeners)
+		{
+			listener.MoviePlayerDidDisappear();
+		}
 	}
 	
 	// The video replay view disappeared
-	public void MoviePlayerDidDisappear()
+	private void MoviePlayerDidDisappear(string empty)
 	{
-		// Implement as you'd like
+		Debug.Log ("MoviePlayerDidDisappear");
+		foreach (KamcordCallbackInterface listener in listeners)
+		{
+			listener.MoviePlayerDidDisappear();
+		}
 	}
 	
-	// The video thumbnail for the latest video is ready
-	// at the given absolute file path
-	public void VideoThumbnailReadyAtFilePath(string filepath)
+	// The thumbnail for the latest video is ready at this
+	// absolute file path
+	private void VideoThumbnailReadyAtFilePath(string filepath)
 	{
-		// Implement as you'd like
+		Debug.Log ("VideoThumbnailReadyAtFilePath: " + filepath);
+		foreach (KamcordCallbackInterface listener in listeners)
+		{
+			listener.VideoThumbnailReadyAtFilePath(filepath);
+		}
+	}
+	
+	// When the video begins and finishes uploading
+	private void VideoWillUploadToURL(string url)
+	{
+		Debug.Log ("VideoWillBeginUploading: " + url);
+		foreach (KamcordCallbackInterface listener in listeners)
+		{
+			listener.VideoWillBeginUploading(url);
+		}
+	}
+	
+	private void VideoUploadedWithSuccess(string success)
+	{
+		Debug.Log ("VideoFinishedUploading: " + success);
+		bool truthValue = (success == "true" ? true : false);
+		foreach (KamcordCallbackInterface listener in listeners)
+		{
+			listener.VideoFinishedUploading(truthValue);
+		}
 	}
 }
