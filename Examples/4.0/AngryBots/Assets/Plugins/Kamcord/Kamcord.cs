@@ -4,7 +4,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 
 //////////////////////////////////////////////////////////////////
-/// Version: 0.9.96
+/// Version: 0.9.97
 //////////////////////////////////////////////////////////////////
 
 public class Kamcord
@@ -123,7 +123,6 @@ public class Kamcord
     /// Custom Sharing UI
     /// 
     
-	// TODO:
 	[DllImport ("__Internal")]
 	private static extern void _KamcordPresentVideoPlayerFullscreen();
     
@@ -615,6 +614,7 @@ public class Kamcord
     /// Custom Sharing UI
     /// 
     
+	/*
 	public static void PresentVideoPlayerFullscreen()
 	{
 		if (Application.platform == RuntimePlatform.IPhonePlayer)
@@ -625,6 +625,7 @@ public class Kamcord
 			Debug.Log ("[NOT CALLED] Kamcord.PresentVideoPlayerFullscreen");
 		}
 	}
+	*/
     
     // TODO: setShareDelegate
     //       shareDelegate

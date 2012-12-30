@@ -88,7 +88,13 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 	// ------------------------------------------------------------------
 	// KamcordCallbackInterface implementations
 	
-	// The Kamcord share view was dismissed
+	// The Kamcord share view appeared
+	public void KamcordViewDidAppear()
+	{
+		// Intentionally left blank
+	}
+	
+	// The Kamcord share view disappeared
 	public void KamcordViewDidDisappear()
 	{
 		// Intentionally left blank
@@ -113,6 +119,11 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 		{
 			SetThumbnailTextureToFilepath(filepath);
 		}
+	}
+	
+	public void ShareButtonPressed()
+	{
+		// Intentionally left blank
 	}
 	
 	// When the video begins and finishes uploading

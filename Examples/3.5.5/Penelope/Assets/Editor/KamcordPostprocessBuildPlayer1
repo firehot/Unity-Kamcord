@@ -150,7 +150,7 @@ close(AppControllerFH);
 ### Now execute the second post process build player script
 my $secondScriptExecutor = "python";
 my $secondPostProcesScriptName = join("/", $curdir,"Assets", "Editor", "KamcordPostprocessBuildPlayer2");
-my @cmd = ($secondScriptExecutor, $secondPostProcesScriptName, $PublishFile);
+my @cmd = ($secondScriptExecutor, $secondPostProcesScriptName, $PublishFile . "/Unity-iPhone.xcodeproj/project.pbxproj");
 
 print "[Executing @cmd.]\n";
 system(@cmd);

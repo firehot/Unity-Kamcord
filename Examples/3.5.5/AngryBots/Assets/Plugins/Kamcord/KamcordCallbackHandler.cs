@@ -28,7 +28,17 @@ public class KamcordCallbackHandler : MonoBehaviour
 	}
 	
 	
-	// The Kamcord share view was dismissed
+	// The Kamcord share view appeared
+	private void KamcordViewDidAppear(string empty)
+	{
+		Debug.Log("KamcordViewDidAppear");
+		foreach (KamcordCallbackInterface listener in listeners)
+		{
+			listener.KamcordViewDidAppear();
+		}
+	}
+	
+	// The Kamcord share view disappeared
 	private void KamcordViewDidDisappear(string empty)
 	{
 		Debug.Log ("KamcordViewDidDisappear");
@@ -55,6 +65,16 @@ public class KamcordCallbackHandler : MonoBehaviour
 		foreach (KamcordCallbackInterface listener in listeners)
 		{
 			listener.MoviePlayerDidDisappear();
+		}
+	}
+	
+	// The share button was pressed
+	private void ShareButtonPressed(string empty)
+	{
+		Debug.Log("ShareButtonPressed");
+		foreach (KamcordCallbackInterface listener in listeners)
+		{
+			listener.ShareButtonPressed();
 		}
 	}
 	

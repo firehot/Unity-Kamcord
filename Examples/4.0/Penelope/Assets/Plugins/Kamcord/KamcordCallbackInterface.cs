@@ -6,7 +6,8 @@
 
 public interface KamcordCallbackInterface
 {
-	// The Kamcord share view was dismissed
+	// The Kamcord share view appeared and disappeared
+	void KamcordViewDidAppear();
 	void KamcordViewDidDisappear();
 	
 	// The video replay view appeared and disappeared
@@ -16,6 +17,9 @@ public interface KamcordCallbackInterface
 	// The thumbnail for the latest video is ready at
 	// this absolute filepath.
 	void VideoThumbnailReadyAtFilePath(string filepath);
+	
+	// The user pressed the share button
+	void ShareButtonPressed();
 	
 	// When the video begins and finishes uploading
 	void VideoWillBeginUploading(string url);

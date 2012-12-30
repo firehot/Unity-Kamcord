@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
-import KamcordXcodeProcessor
+import KamcordPBXProcessor
 
 def main():
-    KamcordXcodeProcessor.ProcessXcode()
+    KamcordPBXProcessor.ProcessXcode()
 
 if __name__ == "__main__":
     main()
