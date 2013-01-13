@@ -94,6 +94,10 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
 + (NSString *)defaultEmailSubject;
 + (NSString *)defaultEmailBody;
 
+// The default message to show in the share box regardless of network shared to.
++ (void)setDefaultMessage:(NSString *)message;
++ (NSString *)defaultMessage;
+
 // Used to keep track of settings per video
 + (void)setLevel:(NSString *)level
            score:(NSNumber *)score;

@@ -44,7 +44,7 @@ public class KamcordCallbackHandler : MonoBehaviour
 		Debug.Log ("KamcordViewDidDisappear");
 		foreach (KamcordCallbackInterface listener in listeners)
 		{
-			listener.MoviePlayerDidAppear();
+			listener.MoviePlayerDidDisappear();
 		}
 	}
 	
@@ -54,7 +54,7 @@ public class KamcordCallbackHandler : MonoBehaviour
 		Debug.Log ("MoviePlayerDidAppear");
 		foreach (KamcordCallbackInterface listener in listeners)
 		{
-			listener.MoviePlayerDidDisappear();
+			listener.MoviePlayerDidAppear();
 		}
 	}
 	
