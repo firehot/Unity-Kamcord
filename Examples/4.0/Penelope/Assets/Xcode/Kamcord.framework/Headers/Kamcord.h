@@ -13,13 +13,14 @@
 
 // Convenient for game developers
 #import "KamcordMacros.h"
-#import "Common/View/KCViewController.h"
+
+#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
 #import "Common/Core/Audio/KCAudio.h"
+#endif
 
 #import "Common/Core/KCAnalytics.h"
 
 FOUNDATION_EXPORT NSString * const KamcordVersion;
-
 
 
 @interface Kamcord : NSObject
@@ -61,9 +62,9 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
 
 // Social media
 // YouTube
-+ (void) setYouTubeTitle:(NSString *)title
-             description:(NSString *)description
-                    tags:(NSString *)tags;
++ (void)setYouTubeTitle:(NSString *)title
+            description:(NSString *)description
+                   tags:(NSString *)tags;
 + (void)setYouTubeVideoCategory:(NSString *)category;
 + (NSString *)youtubeTitle;
 + (NSString *)youtubeDescription;
@@ -131,11 +132,12 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
 //
 
 // Displays the Kamcord view inside the previously set parentViewController;
-+ (void)showView;
++ (void) showView;
 
 // Displays the old Kamcord View, deprecated since 0.9.96
 + (void)showViewDeprecated;
 
+#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
 // When the user shares a video, should the Kamcord UI wait for
 // the video to finish converting before automatically dismissing 
 // the share screen?
@@ -143,6 +145,8 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
 // This can be turned on for games that experience a performance
 // hit if the video processing is happening in the background
 // while the user is playing the next round or level.
++ (void)setEnableSynchronousConversionUI:(BOOL)on;
+#endif
 + (BOOL)enableSynchronousConversionUI;
 
 
@@ -184,7 +188,7 @@ typedef enum
 } KC_SOUND_TYPE;
 
 // The volume is a float bewteen 0 (silence) and 1 (maximum)
-#if (COCOS2D_1_0_1 || COCOS2D_2_0)
+#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
 + (KCAudio *)playSound:(NSString *)filename
                   loop:(BOOL)loop;
 + (KCAudio *)playSound:(NSString *)filename;
@@ -204,7 +208,6 @@ typedef enum
 + (int)audioSampleRate;
 + (int)audioBufferSize;
 + (int)numAudioChannels;
-
 + (void)writeAudioData:(float [])data
                 length:(size_t)nsamples
            numChannels:(int)numChannels;
@@ -349,7 +352,9 @@ mailViewParentViewController:(UIViewController *)parentViewController;
 // Helper to calculate the internal scale factor
 + (unsigned int)resolutionScaleFactor;
 
+#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
 + (KCAudio *)audioBackground;
+#endif
 
 + (BOOL)isIPhone5;
 + (BOOL)checkInternet;

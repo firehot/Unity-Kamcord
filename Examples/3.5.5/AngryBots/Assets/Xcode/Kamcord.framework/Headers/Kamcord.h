@@ -13,7 +13,10 @@
 
 // Convenient for game developers
 #import "KamcordMacros.h"
+
+#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
 #import "Common/Core/Audio/KCAudio.h"
+#endif
 
 #import "Common/Core/KCAnalytics.h"
 
@@ -185,7 +188,7 @@ typedef enum
 } KC_SOUND_TYPE;
 
 // The volume is a float bewteen 0 (silence) and 1 (maximum)
-#if (COCOS2D_1_0_1 || COCOS2D_2_0)
+#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
 + (KCAudio *)playSound:(NSString *)filename
                   loop:(BOOL)loop;
 + (KCAudio *)playSound:(NSString *)filename;
@@ -349,7 +352,9 @@ mailViewParentViewController:(UIViewController *)parentViewController;
 // Helper to calculate the internal scale factor
 + (unsigned int)resolutionScaleFactor;
 
+#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
 + (KCAudio *)audioBackground;
+#endif
 
 + (BOOL)isIPhone5;
 + (BOOL)checkInternet;

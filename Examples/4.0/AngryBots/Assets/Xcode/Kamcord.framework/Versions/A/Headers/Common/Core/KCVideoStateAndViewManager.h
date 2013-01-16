@@ -21,8 +21,10 @@
 
 @property (nonatomic, assign) UIViewController * parentViewController;
 
+#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
 // Audio background
 @property (nonatomic, retain) KCAudio * audioBackground;
+#endif
 
 // Should the UI wait for conversion to finish before
 // dismissing the share view?
@@ -71,6 +73,7 @@
 
 - (void)markAbsoluteTime:(CFAbsoluteTime)absoluteTime;
 
+#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
 // Sound
 - (KCAudio *)playAudioAtURL:(NSURL *)url
                      volume:(float)volume
@@ -80,6 +83,7 @@
                         volume:(float)volume
                           loop:(BOOL)loop;
 - (void)stopAllSounds:(KC_SOUND_TYPE)soundType;
+#endif
 
 #if KCUNITY
 - (void)writeAudioData:(float [])data
