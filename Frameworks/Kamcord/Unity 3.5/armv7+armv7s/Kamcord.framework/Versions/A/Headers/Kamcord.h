@@ -9,15 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "Common/Core/KamcordProtocols.h"
-
-// Convenient for game developers
 #import "KamcordMacros.h"
-
-#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
-#import "Common/Core/Audio/KCAudio.h"
-#endif
-
+#import "Common/Core/KamcordProtocols.h"
 #import "Common/Core/KCAnalytics.h"
 
 FOUNDATION_EXPORT NSString * const KamcordVersion;
@@ -61,18 +54,17 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
                 height:(float)height;
 
 // Social media
+// The default text to show in the share box regardless of network shared to.
++ (void)setDefaultTitle:(NSString *)title;
++ (NSString *)defaultTitle;
+
 // YouTube
-+ (void)setYouTubeTitle:(NSString *)title
-            description:(NSString *)description
-                   tags:(NSString *)tags;
++ (void)setYouTubeDescription:(NSString *)description
+                         tags:(NSString *)tags;
 + (void)setYouTubeVideoCategory:(NSString *)category;
-+ (NSString *)youtubeTitle;
 + (NSString *)youtubeDescription;
 + (NSString *)youtubeTags;
 + (NSString *)youtubeCategory;
-
-+ (void) setDefaultYouTubeMessage:(NSString *)message;
-+ (NSString *)defaultYouTubeMessage;
 
 // Facebook
 + (void) setFacebookTitle:(NSString *)title
@@ -82,29 +74,27 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
 + (NSString *)facebookCaption;
 + (NSString *)facebookDescription;
 
+// Email
++ (void)setDefaultEmailBody:(NSString *)body;
++ (NSString *)defaultEmailBody;
+
+
+// Deprecated social media default messages.
+// Only work for Kamcord.ShowViewDeprecated().
 + (void) setDefaultFacebookMessage:(NSString *)message;
 + (NSString *)defaultFacebookMessage;
 
-// Twitter
 + (void)setDefaultTweet:(NSString *)tweet;
 + (NSString *)defaultTweet;
+
++ (void) setDefaultYouTubeMessage:(NSString *)message;
++ (NSString *)defaultYouTubeMessage;
 
 // Email
 + (void)setDefaultEmailSubject:(NSString *)subject
                           body:(NSString *)body;
 + (NSString *)defaultEmailSubject;
-+ (NSString *)defaultEmailBody;
 
-// The default message to show in the share box regardless of network shared to.
-+ (void)setDefaultMessage:(NSString *)message;
-+ (NSString *)defaultMessage;
-
-// Used to keep track of settings per video
-+ (void)setLevel:(NSString *)level
-           score:(NSNumber *)score;
-
-+ (NSString *)level;
-+ (NSNumber *)score;
 
 ////////////////////
 // Video recording
@@ -116,37 +106,37 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
 // processing and a slight drop in FPS won't be noticed.
 // Only need to call this ONCE on app startup to prime
 // the first video.
-+ (BOOL)prepareNextVideo;
++ (BOOL)prepareNextVideo;   // Same as calling [Kamcord prepareNextVideo:NO];
++ (BOOL)prepareNextVideo:(BOOL)async;
 
 + (BOOL)startRecording;
 + (BOOL)stopRecording;
-+ (BOOL)stopRecordingAndDiscardVideo; // More efficient than stopRecording, but cannot call showView after this
++ (BOOL)stopRecordingAndDiscardVideo;
 + (BOOL)pause;
 + (BOOL)resume;
 
 // Are we currently recording?
 + (BOOL)isRecording;
 
+// Used to keep track of settings per video
++ (void)setLevel:(NSString *)level
+           score:(NSNumber *)score;
+
++ (NSString *)level;
++ (NSNumber *)score;
+
+
 ////////////////////
 // Kamcord UI
 //
 
 // Displays the Kamcord view inside the previously set parentViewController;
-+ (void) showView;
++ (void)showView;
++ (void)showViewInViewController:(UIViewController *)parentViewController;
 
 // Displays the old Kamcord View, deprecated since 0.9.96
 + (void)showViewDeprecated;
 
-#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
-// When the user shares a video, should the Kamcord UI wait for
-// the video to finish converting before automatically dismissing 
-// the share screen?
-// 
-// This can be turned on for games that experience a performance
-// hit if the video processing is happening in the background
-// while the user is playing the next round or level.
-+ (void)setEnableSynchronousConversionUI:(BOOL)on;
-#endif
 + (BOOL)enableSynchronousConversionUI;
 
 
@@ -174,8 +164,12 @@ typedef enum {
     TRAILER_VIDEO_RESOLUTION,
 } KC_VIDEO_RESOLUTION;
 
-+ (void) setVideoResolution:(KC_VIDEO_RESOLUTION)resolution;
-+ (KC_VIDEO_RESOLUTION) videoResolution;
++ (void)setVideoResolution:(KC_VIDEO_RESOLUTION)resolution;
++ (KC_VIDEO_RESOLUTION)videoResolution;
+
++ (void)setVideoBitrateFraction:(NSString *)fraction;
++ (NSUInteger)videoBitrateNumerator;
++ (NSUInteger)videoBitrateDenominator;
 
 // Audio recording
 
@@ -187,21 +181,6 @@ typedef enum
     ALL_SOUNDS
 } KC_SOUND_TYPE;
 
-// The volume is a float bewteen 0 (silence) and 1 (maximum)
-#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
-+ (KCAudio *)playSound:(NSString *)filename
-                  loop:(BOOL)loop;
-+ (KCAudio *)playSound:(NSString *)filename;
-
-
-+ (void)stopAllSounds:(KC_SOUND_TYPE)soundType;
-
-// If you have specific sounds you want to overlay at particular times,
-// pass in an array populated with KCSound objects.
-+ (BOOL)stopRecordingAndAddSounds:(NSArray *)sounds;
-#endif
-
-#if KCUNITY
 + (void)setAudioSettings:(int)sampleRate
               bufferSize:(int)bufferSize
              numChannels:(int)numChannels;
@@ -211,7 +190,6 @@ typedef enum
 + (void)writeAudioData:(float [])data
                 length:(size_t)nsamples
            numChannels:(int)numChannels;
-#endif
 
 // Every time you call startRecording, Kamcord will delete
 // the previous video if it is not currently being shared.
@@ -351,10 +329,6 @@ mailViewParentViewController:(UIViewController *)parentViewController;
 
 // Helper to calculate the internal scale factor
 + (unsigned int)resolutionScaleFactor;
-
-#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
-+ (KCAudio *)audioBackground;
-#endif
 
 + (BOOL)isIPhone5;
 + (BOOL)checkInternet;

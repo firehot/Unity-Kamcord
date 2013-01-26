@@ -4,7 +4,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 
 //////////////////////////////////////////////////////////////////
-/// Version: 0.9.98
+/// Version: 1.0
 //////////////////////////////////////////////////////////////////
 
 public class Kamcord
@@ -26,18 +26,30 @@ public class Kamcord
     /// Share settings
     ///
 	[DllImport ("__Internal")]
+	private static extern void _KamcordSetDefaultTitle(string title);
+	
+	[DllImport ("__Internal")]
 	private static extern void _KamcordSetFacebookSettings(string title,
                                                            string caption,
                                                            string description);
 	
 	[DllImport ("__Internal")]
-    private static extern void _KamcordSetYouTubeSettings(string title,
-                                                          string description,
+    private static extern void _KamcordSetYouTubeSettings(string description,
                                                           string tags);
 	
 	[DllImport ("__Internal")]
 	private static extern void _KamcordSetYouTubeVideoCategory(string category);
+	
+	[DllImport ("__Internal")]
+    private static extern void _KamcordSetLevelAndScore(string level,
+                                                        double score);
+	
+	[DllImport ("__Internal")]
+    private static extern void _KamcordSetDefaultEmailBody(string body);
     
+    
+    // ------------------------- Deprecated -------------------------
+	// Only valid if you use Kamcord.ShowViewDeprecated()
     [DllImport ("__Internal")]
     private static extern void _KamcordSetDefaultFacebookMessage(string message);
 	
@@ -50,10 +62,7 @@ public class Kamcord
 	[DllImport ("__Internal")]
     private static extern void _KamcordSetDefaultEmailSubjectAndBody(string subject,
                                                                      string body);
-    
-	[DllImport ("__Internal")]
-    private static extern void _KamcordSetLevelAndScore(string level,
-                                                        double score);
+	// ------------------------- Deprecated -------------------------
 	
 	//////////////////////////////////////////////////////////////////
     /// Video recording 
@@ -228,6 +237,20 @@ public class Kamcord
     /// Share settings
     ///
 	
+	public static void SetDefaultTitle(string title)
+	{
+		// Call plugin only when running on real device
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			Debug.Log ("Kamcord.SetDefaultTitle");
+			_KamcordSetDefaultTitle(title);
+		}
+		else
+		{
+			Debug.Log ("[NOT CALLED] Kamcord.SetDefaultTitle");
+		}
+	}
+	
 	public static void SetFacebookSettings(string title,
                                            string caption,
                                            string description)
@@ -244,15 +267,14 @@ public class Kamcord
 		}
 	}
 
-    public static void SetYouTubeSettings(string title,
-                                          string description,
+    public static void SetYouTubeSettings(string description,
                                           string tags)
 	{
 		// Call plugin only when running on real device
 		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.SetYouTubeSettings");
-			_KamcordSetYouTubeSettings(title, description, tags);
+			_KamcordSetYouTubeSettings(description, tags);
 		}
 		else
 		{
@@ -270,10 +292,25 @@ public class Kamcord
 		}
 		else
 		{
-			Debug.Log ("[NOT CALLED] Kamcord.SetYouTubeSettings");
+			Debug.Log ("[NOT CALLED] Kamcord.SetYouTubeVideoCategory");
 		}
 	}
     
+	public static void SetDefaultEmailBody(string body)
+    {
+		// Call plugin only when running on real device
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			Debug.Log ("Kamcord.SetDefaultEmailBody");
+			_KamcordSetDefaultEmailBody(body);
+		}
+		else
+		{
+			Debug.Log ("[NOT CALLED] Kamcord.SetDefaultEmailBody");
+		}
+	}
+	
+	
     public static void SetDefaultFacebookMessage(string message)
 	{
 		// Call plugin only when running on real device
@@ -315,7 +352,7 @@ public class Kamcord
 			Debug.Log ("[NOT CALLED] Kamcord.SetDefaultYouTubeMessage");
 		}
 	}
-		
+	
     public static void SetDefaultEmailSubjectAndBody(string subject,
                                                              string body)
     {

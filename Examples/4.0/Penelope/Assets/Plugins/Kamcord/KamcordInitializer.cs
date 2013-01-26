@@ -21,6 +21,17 @@ public class KamcordInitializer : MonoBehaviour
 		DontDestroyOnLoad(this);
 		Kamcord.Init(developerKey, developerSecret, appName, deviceOrientation, videoResolution);
 		Kamcord.SubscribeToCallbacks(true);
+		
+		// Get the buffer size and num buffers
+		int bufferSize;
+		int numBuffers;
+		AudioSettings.GetDSPBufferSize(out bufferSize, out numBuffers);
+		
+		// Get the number of channels
+		int numChannels = Kamcord.GetNumChannelsFromSpeakerMode(AudioSettings.speakerMode);
+		
+		// Tell Kamcord
+		Kamcord.SetAudioSettings(AudioSettings.outputSampleRate, bufferSize, numChannels);
 	}
 
 	void OnApplicationPause(bool pause)

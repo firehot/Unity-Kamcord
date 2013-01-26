@@ -1,6 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
+// As of Kamcord 1.0, there is a known bug in this
+// class that will cause a System.NullReferenceException crash
+// on Kamcord.StopRecording(). Please refrain from using
+// this script until this is fixed in 1.0.1.
+
 public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 {
 	// ------------------------------------------------------------------

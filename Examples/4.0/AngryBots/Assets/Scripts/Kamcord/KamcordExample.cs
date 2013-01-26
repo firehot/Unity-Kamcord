@@ -7,8 +7,9 @@ public class KamcordExample : MonoBehaviour
 	void Start ()
 	{
 		Debug.Log ("KamcordExample Start() begin");
-		Kamcord.SetYouTubeSettings("AngryBots",
-								   "What would ya do for a Klondike bar?",
+				
+		Kamcord.SetDefaultTitle("This. Is. Angrybots!!!");
+		Kamcord.SetYouTubeSettings("What would ya do for a Klondike bar?",
 								   "iOS Unity Kamcord angry maniacal robot");
 		Kamcord.SetFacebookSettings("AngryBots",
 								 	"What u lookin' at Willis?",

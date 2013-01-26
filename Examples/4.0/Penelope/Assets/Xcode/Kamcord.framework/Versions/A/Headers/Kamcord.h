@@ -13,7 +13,7 @@
 
 // Convenient for game developers
 #import "KamcordMacros.h"
-
+#import "Common/View/KCViewController.h"
 #if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
 #import "Common/Core/Audio/KCAudio.h"
 #endif
@@ -21,6 +21,7 @@
 #import "Common/Core/KCAnalytics.h"
 
 FOUNDATION_EXPORT NSString * const KamcordVersion;
+
 
 
 @interface Kamcord : NSObject
@@ -61,18 +62,17 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
                 height:(float)height;
 
 // Social media
+// The default text to show in the share box regardless of network shared to.
++ (void)setDefaultTitle:(NSString *)title;
++ (NSString *)defaultTitle;
+
 // YouTube
-+ (void)setYouTubeTitle:(NSString *)title
-            description:(NSString *)description
-                   tags:(NSString *)tags;
++ (void)setYouTubeDescription:(NSString *)description
+                         tags:(NSString *)tags;
 + (void)setYouTubeVideoCategory:(NSString *)category;
-+ (NSString *)youtubeTitle;
 + (NSString *)youtubeDescription;
 + (NSString *)youtubeTags;
 + (NSString *)youtubeCategory;
-
-+ (void) setDefaultYouTubeMessage:(NSString *)message;
-+ (NSString *)defaultYouTubeMessage;
 
 // Facebook
 + (void) setFacebookTitle:(NSString *)title
@@ -82,29 +82,26 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
 + (NSString *)facebookCaption;
 + (NSString *)facebookDescription;
 
+// Email
++ (void)setDefaultEmailBody:(NSString *)body;
++ (NSString *)defaultEmailBody;
+
+
+// Deprecated social media default messages.
+// Only work for Kamcord.ShowViewDeprecated().
 + (void) setDefaultFacebookMessage:(NSString *)message;
 + (NSString *)defaultFacebookMessage;
 
-// Twitter
 + (void)setDefaultTweet:(NSString *)tweet;
 + (NSString *)defaultTweet;
+
++ (void) setDefaultYouTubeMessage:(NSString *)message;
++ (NSString *)defaultYouTubeMessage;
 
 // Email
 + (void)setDefaultEmailSubject:(NSString *)subject
                           body:(NSString *)body;
 + (NSString *)defaultEmailSubject;
-+ (NSString *)defaultEmailBody;
-
-// The default message to show in the share box regardless of network shared to.
-+ (void)setDefaultMessage:(NSString *)message;
-+ (NSString *)defaultMessage;
-
-// Used to keep track of settings per video
-+ (void)setLevel:(NSString *)level
-           score:(NSNumber *)score;
-
-+ (NSString *)level;
-+ (NSNumber *)score;
 
 ////////////////////
 // Video recording
@@ -117,27 +114,35 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
 // Only need to call this ONCE on app startup to prime
 // the first video.
 + (BOOL)prepareNextVideo;
++ (BOOL)prepareNextVideo:(BOOL)async;
 
 + (BOOL)startRecording;
 + (BOOL)stopRecording;
-+ (BOOL)stopRecordingAndDiscardVideo; // More efficient than stopRecording, but cannot call showView after this
++ (BOOL)stopRecordingAndDiscardVideo;
 + (BOOL)pause;
 + (BOOL)resume;
 
 // Are we currently recording?
 + (BOOL)isRecording;
 
+// Used to keep track of settings per video
++ (void)setLevel:(NSString *)level
+           score:(NSNumber *)score;
+
++ (NSString *)level;
++ (NSNumber *)score;
+
 ////////////////////
 // Kamcord UI
 //
 
 // Displays the Kamcord view inside the previously set parentViewController;
-+ (void) showView;
++ (void)showView;
++ (void)showViewInViewController:(UIViewController *)parentViewController;
 
 // Displays the old Kamcord View, deprecated since 0.9.96
 + (void)showViewDeprecated;
 
-#if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
 // When the user shares a video, should the Kamcord UI wait for
 // the video to finish converting before automatically dismissing 
 // the share screen?
@@ -145,8 +150,6 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
 // This can be turned on for games that experience a performance
 // hit if the video processing is happening in the background
 // while the user is playing the next round or level.
-+ (void)setEnableSynchronousConversionUI:(BOOL)on;
-#endif
 + (BOOL)enableSynchronousConversionUI;
 
 
@@ -208,6 +211,7 @@ typedef enum
 + (int)audioSampleRate;
 + (int)audioBufferSize;
 + (int)numAudioChannels;
+
 + (void)writeAudioData:(float [])data
                 length:(size_t)nsamples
            numChannels:(int)numChannels;
