@@ -25,10 +25,6 @@ public class KamcordInitializer : MonoBehaviour
 		Kamcord.Init(developerKey, developerSecret, appName, deviceOrientation, videoResolution);
 		Kamcord.SubscribeToCallbacks(true);
 		
-		// For testing
-		Debug.Log (@"Setting video bitrate to " + videoBitrateScalefactor);
-		Kamcord.SetVideoBitrateScalefactor(videoBitrateScalefactor);
-		
 		// Get the buffer size and num buffers
 		int bufferSize;
 		int numBuffers;

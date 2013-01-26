@@ -30,13 +30,15 @@ public class Kamcord
     /// Share settings
     ///
 	[DllImport ("__Internal")]
+	private static extern void _KamcordSetDefaultTitle(string title);
+	
+	[DllImport ("__Internal")]
 	private static extern void _KamcordSetFacebookSettings(string title,
                                                            string caption,
                                                            string description);
 	
 	[DllImport ("__Internal")]
-    private static extern void _KamcordSetYouTubeSettings(string title,
-                                                          string description,
+    private static extern void _KamcordSetYouTubeSettings(string description,
                                                           string tags);
 	
 	[DllImport ("__Internal")]
@@ -246,6 +248,20 @@ public class Kamcord
     /// Share settings
     ///
 	
+	public static void SetDefaultTitle(string title)
+	{
+		// Call plugin only when running on real device
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			Debug.Log ("Kamcord.SetDefaultTitle");
+			_KamcordSetDefaultTitle(title);
+		}
+		else
+		{
+			Debug.Log ("[NOT CALLED] Kamcord.SetDefaultTitle");
+		}
+	}
+	
 	public static void SetFacebookSettings(string title,
                                            string caption,
                                            string description)
@@ -262,15 +278,14 @@ public class Kamcord
 		}
 	}
 
-    public static void SetYouTubeSettings(string title,
-                                          string description,
+    public static void SetYouTubeSettings(string description,
                                           string tags)
 	{
 		// Call plugin only when running on real device
 		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.SetYouTubeSettings");
-			_KamcordSetYouTubeSettings(title, description, tags);
+			_KamcordSetYouTubeSettings(description, tags);
 		}
 		else
 		{

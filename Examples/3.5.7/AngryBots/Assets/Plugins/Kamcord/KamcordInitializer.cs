@@ -15,15 +15,15 @@ public class KamcordInitializer : MonoBehaviour
 	public Kamcord.DeviceOrientation deviceOrientation = Kamcord.DeviceOrientation.Portrait;
 	public Kamcord.VideoResolution videoResolution     = Kamcord.VideoResolution.Smart;
 	
+	// For testing
+	public string videoBitrateScalefactor			  = "1/1";
+	
 	// Public methods
 	void Awake()
 	{
 		DontDestroyOnLoad(this);
 		Kamcord.Init(developerKey, developerSecret, appName, deviceOrientation, videoResolution);
 		Kamcord.SubscribeToCallbacks(true);
-		
-		Kamcord.SetDefaultTitle ("Kevin Title Test.");
-		Kamcord.SetDefaultEmailBody("Default email body test.");
 		
 		// Get the buffer size and num buffers
 		int bufferSize;

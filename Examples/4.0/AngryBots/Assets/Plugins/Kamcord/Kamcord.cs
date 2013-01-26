@@ -39,17 +39,7 @@ public class Kamcord
 	
 	[DllImport ("__Internal")]
 	private static extern void _KamcordSetYouTubeVideoCategory(string category);
-	
-	[DllImport ("__Internal")]
-    private static extern void _KamcordSetLevelAndScore(string level,
-                                                        double score);
-	
-	[DllImport ("__Internal")]
-    private static extern void _KamcordSetDefaultEmailBody(string body);
     
-    
-    // ------------------------- Deprecated -------------------------
-	// Only valid if you use Kamcord.ShowViewDeprecated()
     [DllImport ("__Internal")]
     private static extern void _KamcordSetDefaultFacebookMessage(string message);
 	
@@ -62,7 +52,10 @@ public class Kamcord
 	[DllImport ("__Internal")]
     private static extern void _KamcordSetDefaultEmailSubjectAndBody(string subject,
                                                                      string body);
-	// ------------------------- Deprecated -------------------------
+    
+	[DllImport ("__Internal")]
+    private static extern void _KamcordSetLevelAndScore(string level,
+                                                        double score);
 	
 	//////////////////////////////////////////////////////////////////
     /// Video recording 
@@ -292,25 +285,10 @@ public class Kamcord
 		}
 		else
 		{
-			Debug.Log ("[NOT CALLED] Kamcord.SetYouTubeVideoCategory");
+			Debug.Log ("[NOT CALLED] Kamcord.SetYouTubeSettings");
 		}
 	}
     
-	public static void SetDefaultEmailBody(string body)
-    {
-		// Call plugin only when running on real device
-		if (Application.platform == RuntimePlatform.IPhonePlayer)
-		{
-			Debug.Log ("Kamcord.SetDefaultEmailBody");
-			_KamcordSetDefaultEmailBody(body);
-		}
-		else
-		{
-			Debug.Log ("[NOT CALLED] Kamcord.SetDefaultEmailBody");
-		}
-	}
-	
-	
     public static void SetDefaultFacebookMessage(string message)
 	{
 		// Call plugin only when running on real device
@@ -352,7 +330,7 @@ public class Kamcord
 			Debug.Log ("[NOT CALLED] Kamcord.SetDefaultYouTubeMessage");
 		}
 	}
-	
+		
     public static void SetDefaultEmailSubjectAndBody(string subject,
                                                              string body)
     {
