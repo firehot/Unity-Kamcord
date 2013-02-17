@@ -1,3 +1,5 @@
+#if UNITY_IPHONE
+
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -26,3 +28,6 @@ public class KamcordPostprocessScript : MonoBehaviour
 		UnityEngine.Debug.Log("--- Kamcord --- Finished executing post process build phase."); 
 	}
 }
+
+#endif
+

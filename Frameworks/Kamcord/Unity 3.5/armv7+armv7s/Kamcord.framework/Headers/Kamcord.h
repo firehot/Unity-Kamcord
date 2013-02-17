@@ -116,15 +116,15 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
 + (BOOL)resume;
 
 // Are we currently recording?
-+ (BOOL)isRecording;
-
-// Used to keep track of settings per video
++ (BOOL)isRecording;// Used to keep track of settings per video
 + (void)setLevel:(NSString *)level
            score:(NSNumber *)score;
 
 + (NSString *)level;
 + (NSNumber *)score;
 
++ (void)setVideoMetadata:(NSDictionary *)metadata;
++ (NSDictionary *)videoMetadata;
 
 ////////////////////
 // Kamcord UI

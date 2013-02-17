@@ -1,3 +1,5 @@
+#if UNITY_IPHONE
+
 using UnityEngine;
 using System.Collections;
 
@@ -5,7 +7,8 @@ public class KamcordHooks : MonoBehaviour
 {
 	void StartRecording()
 	{
-		Kamcord.StartRecording();
+		bool result = Kamcord.StartRecording();
+		Debug.Log ("Kamcord.StartRecording: " + result);
 	}
 	
 	void StopRecordingAndShowView()
@@ -14,3 +17,5 @@ public class KamcordHooks : MonoBehaviour
 		Kamcord.ShowView();
 	}
 }
+
+#endif

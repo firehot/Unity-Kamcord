@@ -1,3 +1,5 @@
+#if UNITY_IPHONE
+
 // ------------------------------------------------------------------------------
 // KamcordInitializer lets you set Kamcord parameters from within the Unity IDE.
 //
@@ -45,3 +47,6 @@ public class KamcordInitializer : MonoBehaviour
 			Kamcord.Resume();
 	}
 }
+
+#endif
+

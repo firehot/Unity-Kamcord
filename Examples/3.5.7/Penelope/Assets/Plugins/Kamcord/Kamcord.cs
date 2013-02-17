@@ -1,10 +1,12 @@
+#if UNITY_IPHONE
+
 using UnityEngine;
 using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 
 //////////////////////////////////////////////////////////////////
-/// Version: 1.0
+/// Version: 1.0.1 (2013-02-16)
 //////////////////////////////////////////////////////////////////
 
 public class Kamcord
@@ -88,9 +90,6 @@ public class Kamcord
     ///
     [DllImport ("__Internal")]
     private static extern void _KamcordShowView();
-	
-	[DllImport ("__Internal")]
-    private static extern void _KamcordShowViewDeprecated();
     
 	[DllImport ("__Internal")]
     private static extern void _KamcordSetShowVideoControlsOnReplay(bool showControls);
@@ -525,17 +524,6 @@ public class Kamcord
 		}
 	}
 	
-	public static void ShowViewDeprecated()
-	{
-		if (Application.platform == RuntimePlatform.IPhonePlayer)
-		{
-			Debug.Log ("Kamcord.ShowViewDeprecated");
-			_KamcordShowViewDeprecated();
-		} else {
-			Debug.Log ("[NOT CALLED] Kamcord.ShowView");
-		}
-	}
-	
     public static void SetShowVideoControlsOnReplay(bool showControls)
 	{
 		if (Application.platform == RuntimePlatform.IPhonePlayer)
@@ -761,3 +749,5 @@ public class Kamcord
 		}
 	}
 }
+
+#endif

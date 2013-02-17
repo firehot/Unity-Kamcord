@@ -1,3 +1,5 @@
+#if UNITY_IPHONE
+
 using UnityEngine;
 using System.Collections;
 
@@ -9,3 +11,5 @@ public class KamcordCameraAddon : MonoBehaviour
 		GL.InvalidateState();
 	}
 }
+
+#endif

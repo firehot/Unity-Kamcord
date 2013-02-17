@@ -1,3 +1,5 @@
+#if UNITY_IPHONE
+
 using UnityEngine;
 using System.Collections;
 
@@ -67,15 +69,24 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 		EnableThumbnail(false);
 	}
 	
+	void OnDestroy()
+	{
+		Debug.Log ("Thumbnail updater was destroyed.");
+		KamcordCallbackHandler.RemoveListener(this);
+	}
+	
 	// Detect touch events
 	void Update()
 	{
-		foreach (Touch touch in Input.touches)
+		if (this.theGuiTexture != null)
 		{
-			if (touch.phase == TouchPhase.Began && this.theGuiTexture.HitTest(touch.position))
+			foreach (Touch touch in Input.touches)
 			{
-				Kamcord.ShowView();
-				break;
+				if (touch.phase == TouchPhase.Began && this.theGuiTexture.HitTest(touch.position))
+				{
+					Kamcord.ShowView();
+					break;
+				}
 			}
 		}
 	}
@@ -83,7 +94,7 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 	// Display a play button if the thumbnail is visible
 	void OnGUI()
 	{
-		if (this.theGuiTexture.enabled)
+		if (this.theGuiTexture != null && this.theGuiTexture.enabled)
 		{
 			GUI.Label(playButtonLocationAndSize, playButtonTexture);
 		}
@@ -120,8 +131,10 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 	// this absolute filepath.
 	public void VideoThumbnailReadyAtFilePath(string filepath)
 	{
-		if (System.IO.File.Exists(filepath)) 
+		Debug.Log("Video thumbnail file path: " + filepath);
+		if (System.IO.File.Exists(filepath))
 		{
+			Debug.Log ("Video thumnail exists at file path: " + filepath);
 			SetThumbnailTextureToFilepath(filepath);
 		}
 	}
@@ -156,7 +169,7 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 			{
 				this.thumbnailToScreenRatio = 0.2f;
 			}
-			
+						
 			// First set the thumbnail location and size
 			float absoluteX = this.thumbnailRelativeX * Screen.width;
 			float absoluteY = this.thumbnailRelativeY * Screen.height;
@@ -169,7 +182,7 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 			float playButtonAbsoluteX = absoluteX + 0.5f * (absoluteWidth  - playButtonWidth);
 			// GUI.Label screen coords origin is top left, unlike thumbnail texture :(
 			float playButtonAbsoluteY = (Screen.height - absoluteY) - 0.5f * (absoluteHeight + playButtonHeight);
-			
+						
 			// Save it for later use in OnGUI
 			playButtonLocationAndSize = new Rect(playButtonAbsoluteX, playButtonAbsoluteY, playButtonWidth, playButtonHeight);
 			
@@ -178,6 +191,7 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 			
 			transform.position = Vector3.zero;
 			transform.localScale = Vector3.zero;
+			
 			this.theGuiTexture.pixelInset = new Rect(absoluteX, absoluteY, absoluteWidth, absoluteHeight);
 	        this.theGuiTexture.texture = loader.texture;
 			EnableThumbnail(true);
@@ -191,3 +205,6 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 		StartCoroutine(WaitForLoadToFinishAndThenSetThumbnail(loader));
 	}
 }
+
+#endif
+

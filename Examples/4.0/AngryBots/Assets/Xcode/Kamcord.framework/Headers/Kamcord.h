@@ -132,6 +132,9 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
 + (NSString *)level;
 + (NSNumber *)score;
 
++ (void)setVideoMetadata:(NSDictionary *)metadata;
++ (NSDictionary *)videoMetadata;
+
 ////////////////////
 // Kamcord UI
 //

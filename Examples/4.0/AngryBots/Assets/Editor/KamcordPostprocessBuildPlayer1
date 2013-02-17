@@ -21,23 +21,23 @@ use File::Basename qw(basename dirname fileparse);
 
 # Unity-Provided Publish Arguments
 my $PublishFile =     $ARGV[0];  # The published file (stand-alone, unityweb) path
-my $PublishTarget =   $ARGV[1];  # Publish output target (stand-alone, web player, etc.)
-my $CompanyName =     $ARGV[3];  # Company name as it appears under Edit > Project Settings > Player
-my $ProductName =     $ARGV[4];  # Product name as it appears under Edit > Project Settings > Player
-my $DisplayWidth =    $ARGV[5];  # The default display width as it appears under Edit > Project Settings > Player
-my $DisplayHeight =   $ARGV[6];  # The default display height as it appears under Edit > Project Settings > Player
+# my $PublishTarget =   $ARGV[1];  # Publish output target (stand-alone, web player, etc.)
+# my $CompanyName =     $ARGV[3];  # Company name as it appears under Edit > Project Settings > Player
+# my $ProductName =     $ARGV[4];  # Product name as it appears under Edit > Project Settings > Player
+# my $DisplayWidth =    $ARGV[5];  # The default display width as it appears under Edit > Project Settings > Player
+# my $DisplayHeight =   $ARGV[6];  # The default display height as it appears under Edit > Project Settings > Player
 	
 # Parse the published web player file path into a file name, folder and suffix
 my ($PublishFileName, $PublishFolder, $PublishSuffix) = fileparse($PublishFile, qr/\.[^.]*/);	
 
 
 print "PublishFile:   $PublishFile\n";
-print "PublishTarget: $PublishTarget\n";
-print "CompanyName:   $CompanyName\n";
-print "ProductName:   $PublishTarget\n";
-print "DisplayWidth:  $DisplayWidth\n";
-print "DisplayHeight: $DisplayHeight\n";
-
+# print "PublishTarget: $PublishTarget\n";
+# print "CompanyName:   $CompanyName\n";
+# print "ProductName:   $PublishTarget\n";
+# print "DisplayWidth:  $DisplayWidth\n";
+# print "DisplayHeight: $DisplayHeight\n";
+# 
 
 ### Tasks
 #
@@ -66,7 +66,6 @@ foreach my $file (@files)
     # Kind of a lazy hack
     unless(($file eq ".") || ($file eq ".."))
     {
-        # `echo $file > log.txt`;
         my $fromPath = $unityAssetsXcodePath . $file;
         `cp -R "$fromPath" "$toPath"`;
     }
@@ -74,10 +73,10 @@ foreach my $file (@files)
 
 # Erase all annoying .meta files
 my @metafiles = `find "$toPath" -name \\*.meta -print`;
-print "Erasing meta files\n";
+print "Erasing meta files: ", scalar(@metafiles), "\n";
 foreach my $metafile (@metafiles)
 {
-    print "$metafile\n";
+    chomp($metafile);   # Don't forget or else rm will fail
     `rm "$metafile"`;
 }
 
@@ -118,7 +117,7 @@ print "NumLines: ", scalar(@file), "\n";
 seek (AppControllerFH, 0, 0);
 
 my $importedKamcord = 0;
-my $includeToMatch = quotemeta("#include <mach/mach_time.h>");
+my $includeToMatch = quotemeta("\"AppController.h\"");
 
 # Start substituting
 foreach my $line (@file)

@@ -1,3 +1,5 @@
+#if UNITY_IPHONE
+
 using UnityEngine;
 
 public class KamcordAudioRecorder : MonoBehaviour
@@ -10,3 +12,5 @@ public class KamcordAudioRecorder : MonoBehaviour
 		}
 	}
 }
+
+#endif

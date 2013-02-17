@@ -1,3 +1,5 @@
+#if UNITY_IPHONE
+
 // ---------------------------------------------------------------------------
 // This is the interface that KamcordCallbackProcessor implements. These
 // are all the possible callbacks that the Kamcord Objective-C framework
@@ -25,3 +27,5 @@ public interface KamcordCallbackInterface
 	void VideoWillBeginUploading(string url);
 	void VideoFinishedUploading(bool success);
 }
+
+#endif

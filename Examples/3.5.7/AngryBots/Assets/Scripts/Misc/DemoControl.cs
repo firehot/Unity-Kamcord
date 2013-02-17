@@ -85,7 +85,12 @@ public class DemoControl : MonoBehaviour
 	
 	public void FlipPause ()
 	{
-		Time.timeScale = Time.timeScale == 0.0f ? 1.0f : 0.0f;
+		if (Time.timeScale == 0.0f)
+		{
+			Time.timeScale = 1.0f;
+		} else {
+			Time.timeScale = 0.0f;
+		}
 	}
 	
 	
@@ -119,6 +124,9 @@ public class DemoControl : MonoBehaviour
 				{
 					FlipPause ();
 					Event.current.Use ();
+				
+					Kamcord.StopRecording();
+					Kamcord.ShowView ();
 				}
 			break;
 		}
@@ -145,6 +153,7 @@ public class DemoControl : MonoBehaviour
 			if (MenuButton (resumeButton))
 			{
 				Time.timeScale = 1.0f;
+				Kamcord.StartRecording();
 			}
 			
 			if (fullScreenAvailable)

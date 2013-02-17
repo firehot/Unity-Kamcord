@@ -1,3 +1,5 @@
+#if UNITY_IPHONE
+
 // -------------------------------------------------------------------------------
 // Implement any callbacks you want from Kamcord here. You can simply fill
 // out the method bodies or delegate each method call to a different script/class.
@@ -18,12 +20,14 @@ public class KamcordCallbackHandler : MonoBehaviour
 	{
 		if (!listeners.Contains(listener))
 		{
+			Debug.Log ("Added listener.");
 			listeners.Add(listener);
 		}
 	}
 	
 	public static void RemoveListener(KamcordCallbackInterface listener)
 	{
+		Debug.Log ("Removed listener.");
 		listeners.Remove(listener);
 	}
 	
@@ -109,3 +113,6 @@ public class KamcordCallbackHandler : MonoBehaviour
 		}
 	}
 }
+
+#endif
+
