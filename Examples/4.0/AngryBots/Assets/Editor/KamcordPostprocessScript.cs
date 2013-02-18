@@ -18,7 +18,7 @@ public class KamcordPostprocessScript : MonoBehaviour
 		
 		Process p = new Process();
         p.StartInfo.FileName = "perl";
-		p.StartInfo.Arguments = string.Format("Assets/Editor/KamcordPostprocessbuildPlayer1 \"{0}\"", pathToBuildProject);
+        p.StartInfo.Arguments = string.Format("Assets/Editor/KamcordPostprocessbuildPlayer1 \"{0}\"", pathToBuildProject);
         p.StartInfo.UseShellExecute = false;
         p.StartInfo.RedirectStandardOutput = false;
         p.Start();
@@ -30,4 +30,3 @@ public class KamcordPostprocessScript : MonoBehaviour
 }
 
 #endif
-
