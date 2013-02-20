@@ -38,6 +38,22 @@ public class KamcordInitializer : MonoBehaviour
 		// Tell Kamcord
 		Kamcord.SetAudioSettings(AudioSettings.outputSampleRate, bufferSize, numChannels);
 	}
+	
+	/*
+	void OnLevelWasLoaded(int level)
+	{
+		Debug.Log ("Loaded level " + level);
+
+		// Attach AudioListener to all objects in the scene
+		AudioListener[] listeners = FindObjectsOfType(typeof(AudioListener)) as AudioListener[];
+		Debug.Log("Found " + listeners.Length + " audio listeners.");
+		foreach (AudioListener listener in listeners)
+		{
+			Debug.Log("Found: " + listener.gameObject);
+			listener.gameObject.AddComponent("KamcordAudioRecorder");
+		}
+	}
+	*/
 
 	void OnApplicationPause(bool pause)
 	{

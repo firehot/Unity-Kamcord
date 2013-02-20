@@ -20,14 +20,12 @@ public class KamcordCallbackHandler : MonoBehaviour
 	{
 		if (!listeners.Contains(listener))
 		{
-			Debug.Log ("Added listener.");
 			listeners.Add(listener);
 		}
 	}
 	
 	public static void RemoveListener(KamcordCallbackInterface listener)
 	{
-		Debug.Log ("Removed listener.");
 		listeners.Remove(listener);
 	}
 	
@@ -48,7 +46,7 @@ public class KamcordCallbackHandler : MonoBehaviour
 		Debug.Log ("KamcordViewDidDisappear");
 		foreach (KamcordCallbackInterface listener in listeners)
 		{
-			listener.MoviePlayerDidDisappear();
+			listener.KamcordViewDidDisappear();
 		}
 	}
 	
@@ -115,4 +113,3 @@ public class KamcordCallbackHandler : MonoBehaviour
 }
 
 #endif
-
