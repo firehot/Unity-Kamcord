@@ -15,10 +15,7 @@ public class KamcordInitializer : MonoBehaviour
 	public string developerSecret 			   		  = "Kamcord developer secret";
 	public string appName   				   		  = "Application name";
 	public Kamcord.DeviceOrientation deviceOrientation = Kamcord.DeviceOrientation.Portrait;
-	public Kamcord.VideoResolution videoResolution     = Kamcord.VideoResolution.Smart;
-	
-	// For testing
-	public string videoBitrateScalefactor			  = "1/1";
+	public Kamcord.VideoResolution videoResolution     = Kamcord.VideoResolution.Medium;
 	
 	// Public methods
 	void Awake()

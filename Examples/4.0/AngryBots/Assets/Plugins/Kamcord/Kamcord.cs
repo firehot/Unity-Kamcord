@@ -6,7 +6,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 
 //////////////////////////////////////////////////////////////////
-/// Version: 1.0.1 (2013-02-16)
+/// Version: 1.0.2 (2013-02-24)
 //////////////////////////////////////////////////////////////////
 
 public class Kamcord
@@ -185,7 +185,8 @@ public class Kamcord
 	public enum VideoResolution
 	{
 		Smart,
-		Trailer
+		Medium,
+		Trailer	// Do not release your game with this setting!
 	};
 	
 	// Possible values of the YouTube video category
