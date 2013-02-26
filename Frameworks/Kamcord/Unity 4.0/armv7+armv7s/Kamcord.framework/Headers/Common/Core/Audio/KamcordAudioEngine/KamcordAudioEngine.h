@@ -7,7 +7,7 @@
 //
 
 #import <AudioToolbox/AudioToolbox.h>
-#import <Kamcord/Common/Core/Audio/KCAudioListener.h>
+#import "../KCAudioListener.h"
 
 #import "SimpleAudioEngine.h"
 #import "CocosDenshion.h"

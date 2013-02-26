@@ -1,0 +1,1 @@
+Assets/Xcode/Kamcord.framework/Resources/Kamcord.bundle/mail_gray.png

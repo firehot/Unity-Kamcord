@@ -24,6 +24,12 @@ public class Kamcord
 											string deviceOrientation, 
 											string videoResolution);
 	
+	[DllImport ("__Internal")]
+	private static extern void _KamcordSetDeviceOrientation(string deviceOrientation);
+	
+	[DllImport ("__Internal")]
+	private static extern string _KamcordDeviceOrientation();
+	
 	// For testing
 	[DllImport ("__Internal")]
 	private static extern void _KamcordSetVideoBitrateFraction(string fraction);
@@ -203,6 +209,7 @@ public class Kamcord
 		Music
 	};
 	
+	private static bool orientationWasPreviouslySet = false;
 	
 	//////////////////////////////////////////////////////////////////
     /// Implementations
@@ -221,11 +228,49 @@ public class Kamcord
 		if (Application.platform == RuntimePlatform.IPhonePlayer)
 		{
 			Debug.Log ("Kamcord.Init");
+			if (orientationWasPreviouslySet)
+			{
+				deviceOrientation = Kamcord.GetDeviceOrientation();
+				Debug.Log ("Setting device orientation to old orientation: " + deviceOrientation);
+			}
 			_KamcordInit(devKey, devSecret, appName, deviceOrientation.ToString(), videoResolution.ToString());
 		}
 		else
 		{
 			Debug.Log ("[NOT CALLED] Kamcord.Init");
+		}
+	}
+	
+	public static Kamcord.DeviceOrientation GetDeviceOrientation()
+	{
+		string orientation = _KamcordDeviceOrientation();
+		Debug.Log ("Kamcord orientation is: " + orientation);
+		if (orientation == "Portrait")
+		{
+			return Kamcord.DeviceOrientation.Portrait;
+		} else if (orientation == "LandscapeLeft") {
+			return Kamcord.DeviceOrientation.LandscapeLeft;
+		} else if (orientation == "LandscapeRight") {
+			return Kamcord.DeviceOrientation.LandscapeRight;
+		} else if (orientation == "PortraitUpsideDown") {
+			return Kamcord.DeviceOrientation.PortraitUpsideDown;
+		} else {
+			return Kamcord.DeviceOrientation.Portrait;
+		}
+	}
+	
+	public static void SetDeviceOrientation(DeviceOrientation orientation)
+	{
+		// Call plugin only when running on real device
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			Debug.Log ("Kamcord.SetDeviceOrientation");
+			orientationWasPreviouslySet = true;
+			_KamcordSetDeviceOrientation(orientation.ToString());
+		}
+		else
+		{
+			Debug.Log ("[NOT CALLED] Kamcord.SetDeviceOrientation");
 		}
 	}
 	
