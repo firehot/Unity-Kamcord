@@ -131,12 +131,13 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
 // Kamcord UI
 //
 
-// Displays the Kamcord view inside the previously set parentViewController;
+// Displays the Kamcord view inside the previously set parentViewController.
 + (void)showView;
 + (void)showViewInViewController:(UIViewController *)parentViewController;
 
-// Displays the old Kamcord View, deprecated since 0.9.96
-+ (void)showViewDeprecated;
+// Displays the Kamcord watch-only view inside the previously set parentViewController.
++ (void)showWatchView;
++ (void)showWatchViewInViewController:(UIViewController *)parentViewController;
 
 + (BOOL)enableSynchronousConversionUI;
 

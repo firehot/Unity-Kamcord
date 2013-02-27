@@ -50,26 +50,10 @@ my $xcodeOutputPath      = $PublishFile;
 
 print "Unity Assets/Xcode path: " . $unityAssetsXcodePath . "\n";
 
-opendir(XCODEDIR, $unityAssetsXcodePath) or die "Cannot open directory $unityAssetsXcodePath: $!";
-my @files = readdir(XCODEDIR);
-closedir(XCODEDIR);
-
 # Copy files from Unity Assets/Xcode/ to the generated Xcode project
 my $toPath = $PublishFile . "/Kamcord/";
 `mkdir -p "$toPath"`;
-foreach my $file (@files)
-{
-    if ($file =~ /\.meta/) {
-        next;
-    }
-
-    # Kind of a lazy hack
-    unless(($file eq ".") || ($file eq ".."))
-    {
-        my $fromPath = $unityAssetsXcodePath . $file;
-        `cp -R "$fromPath" "$toPath"`;
-    }
-}
+`cp -R "$unityAssetsXcodePath" "$toPath"`;
 
 # Erase all annoying .meta files
 my @metafiles = `find "$toPath" -name \\*.meta -print`;
@@ -79,7 +63,6 @@ foreach my $metafile (@metafiles)
     chomp($metafile);   # Don't forget or else rm will fail
     `rm "$metafile"`;
 }
-
 
 
 # 2. Find the first #import statement and Import <Kamcord/Unity/iPhone_GlesSupport_Kamcord.h> above that for simplicity

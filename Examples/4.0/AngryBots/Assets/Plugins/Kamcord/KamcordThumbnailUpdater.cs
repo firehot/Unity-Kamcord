@@ -110,8 +110,28 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 		// Intentionally left blank
 	}
 	
+	public void KamcordViewWillDisappear()
+	{
+		// Intentionally left blank
+	}
+	
 	// The Kamcord share view disappeared
 	public void KamcordViewDidDisappear()
+	{
+		// Intentionally left blank
+	}
+	
+	public void KamcordWatchViewDidAppear()
+	{
+		// Intentionally left blank
+	}
+	
+	public void KamcordWatchViewWillDisappear()
+	{
+		// Intentionally left blank
+	}
+	
+	public void KamcordWatchViewDidDisappear()
 	{
 		// Intentionally left blank
 	}

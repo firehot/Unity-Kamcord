@@ -92,6 +92,9 @@ public class Kamcord
     ///
     [DllImport ("__Internal")]
     private static extern void _KamcordShowView();
+	
+	[DllImport ("__Internal")]
+    private static extern void _KamcordShowWatchView();
     
 	[DllImport ("__Internal")]
     private static extern void _KamcordSetShowVideoControlsOnReplay(bool showControls);
@@ -548,6 +551,17 @@ public class Kamcord
 			_KamcordShowView();
 		} else {
 			Debug.Log ("[NOT CALLED] Kamcord.ShowView");
+		}
+	}
+	
+	public static void ShowWatchView()
+	{
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			Debug.Log ("Kamcord.ShowWatchView");
+			_KamcordShowWatchView();
+		} else {
+			Debug.Log ("[NOT CALLED] Kamcord.ShowWatchView");
 		}
 	}
 	

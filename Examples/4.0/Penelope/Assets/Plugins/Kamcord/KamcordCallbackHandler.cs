@@ -40,6 +40,15 @@ public class KamcordCallbackHandler : MonoBehaviour
 		}
 	}
 	
+	private void KamcordViewWillDisappear(string empty)
+	{
+		Debug.Log ("KamcordViewWillDisappear");
+		foreach (KamcordCallbackInterface listener in listeners)
+		{
+			listener.KamcordViewWillDisappear();
+		}
+	}
+	
 	// The Kamcord share view disappeared
 	private void KamcordViewDidDisappear(string empty)
 	{
@@ -49,6 +58,36 @@ public class KamcordCallbackHandler : MonoBehaviour
 			listener.KamcordViewDidDisappear();
 		}
 	}
+	
+	// The Kamcord watch view appeared
+	private void KamcordWatchViewDidAppear(string empty)
+	{
+		Debug.Log("KamcordWatchViewDidAppear");
+		foreach (KamcordCallbackInterface listener in listeners)
+		{
+			listener.KamcordWatchViewDidAppear();
+		}
+	}
+	
+	private void KamcordWatchViewWillDisappear(string empty)
+	{
+		Debug.Log ("KamcordWatchViewWillDisappear");
+		foreach (KamcordCallbackInterface listener in listeners)
+		{
+			listener.KamcordWatchViewWillDisappear();
+		}
+	}
+	
+	// The Kamcord watch view disappeared
+	private void KamcordWatchViewDidDisappear(string empty)
+	{
+		Debug.Log ("KamcordWatchViewDidDisappear");
+		foreach (KamcordCallbackInterface listener in listeners)
+		{
+			listener.KamcordWatchViewDidDisappear();
+		}
+	}
+	
 	
 	// The video replay view appeared
 	private void MoviePlayerDidAppear(string empty)
