@@ -26,7 +26,8 @@
 @property (nonatomic, retain) NSString * connectMessage;
 @property (nonatomic, retain) NSString * disconnectMessage;
 @property (nonatomic, retain) NSString * imageName;
-@property (nonatomic, retain) UIButton * button;
+@property (nonatomic, retain) UIButton * signInButton;
+@property (nonatomic, retain) UIButton * signOutButton;
 @property (nonatomic, retain) UILabel  * label;
 @property (nonatomic, retain) UILabel  * titleLabel;
 

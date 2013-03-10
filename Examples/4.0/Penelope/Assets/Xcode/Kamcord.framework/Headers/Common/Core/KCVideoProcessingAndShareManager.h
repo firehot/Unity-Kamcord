@@ -37,11 +37,12 @@ typedef enum
 
 typedef enum
 {
-    KC_STATE_NONE = 1,
-    KC_STATE_SUCCESS = 2,
-    KC_STATE_FAILED = 3,
-    KC_STATE_CANCELLED = 4,
-    KC_STATE_CANCEL_AND_RETRY = 5,
+    KC_STATE_NONE               = 1,
+    KC_STATE_SUCCESS,
+    KC_STATE_FAILED,
+    KC_STATE_CANCELLED,
+    KC_STATE_CANCEL_AND_RETRY,
+    KC_STATE_FAILED_NONPOSITIVE_RENDERSIZE,
 } KC_VIDEO_PROCESS_STATUS;
 
 // An object needed to merge/convert a video

@@ -22,7 +22,8 @@
 @property (nonatomic, retain) UIButton *retryButton;
 
 - (id)initWithFrame:(CGRect) frame
-              video:(KCVideo *)video;
+              video:(KCVideo *)video
+           assetMap:(KCUiAssetMap *)assetMap;
 - (void)setLabelText:(NSString *)text;
 - (void)setProgressLevel:(float) progress;
 -(void)setAnimating:(BOOL) animate;

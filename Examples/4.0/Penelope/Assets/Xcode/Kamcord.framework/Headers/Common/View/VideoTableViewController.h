@@ -91,7 +91,9 @@
 @property (nonatomic, retain) KCShareDelegateIntermediary * intermediary;
 @property (nonatomic, retain) KCVideo * currentVideo;
 @property (nonatomic, assign) KCUiAssetMap * assetMap;
-@property (nonatomic, retain) NSString * source;
+@property (nonatomic, assign) KC_VIEW_MODE viewMode;
+
+@property (nonatomic, assign) UIBarButtonItem * doneButtonItem;
 
 - (void)addPullToRefreshHeader;
 - (void)startLoading;
@@ -99,9 +101,10 @@
 - (void)dismissView;
 - (id)initWithVideo:(KCVideo *)video
            assetMap:(KCUiAssetMap *)assetMap
-             source:(NSString *)source;
+           viewMode:(KC_VIEW_MODE)viewMode;
 
 - (void)setupProgressUIView;
 - (void)s3UploadDidStart:(NSNotification *)notification;
+- (void)setToolbarProperty:(UIBarButtonItem *)doneButtonItem;
 
 @end

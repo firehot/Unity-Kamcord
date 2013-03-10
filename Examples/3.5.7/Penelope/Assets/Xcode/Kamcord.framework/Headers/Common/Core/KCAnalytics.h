@@ -30,6 +30,7 @@ typedef enum
 @property (nonatomic, assign) BOOL shouldTrackShares;
 @property (nonatomic, retain) NSDate * lastUpdatedAt;
 
++ (NSString *)uniqueDeviceStringMD5;
 + (NSString *)uniqueDeviceString;
 
 - (id)init;

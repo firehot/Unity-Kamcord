@@ -65,7 +65,6 @@ typedef enum
     ERROR,
 } KC_SHARE_REQUEST_STATE;
 
-
 @interface KCVideoShareRequest : NSObject
 
 @property (readonly, nonatomic, retain) KCVideo * video;
@@ -117,6 +116,7 @@ alreadySharedWithEmail:(BOOL)alreadySharedWithEmail
 
 @interface KCVideo : NSObject
 
+// Make sure to modify deviceOSVersionToString if any values are added/removed to this enum.
 typedef enum
 {
     KC_OS_PRE_5_0, // 3.x and 4.x
@@ -126,6 +126,17 @@ typedef enum
     KC_OS_POST_6_0 // 6.0 and later
 } KC_OS_VERSION;
 
+// Make sure to modify videoStatusToString if any values are added/removed to this enum.
+typedef enum
+{
+    KC_MAIN_VIEW = 0,
+    KC_WATCH_ONLY_VIEW,
+    KC_AUTO_POP_VIEW,
+    KC_PUSH_NOTIF_RECEIVE_VIEW,
+    KC_ZYNGA_MAIN_VIEW
+} KC_VIEW_MODE;
+
+// Make sure to modify viewModeToString if any values are added/removed to this enum.
 typedef enum
 {
     KC_VIDEO_STATUS_NONE                = 0,    // Just instantiated
@@ -199,6 +210,7 @@ typedef enum
 @property (nonatomic, retain) CGImageRef thumbnail __attribute__((NSObject));
 
 @property (nonatomic, assign) BOOL showViewForVideoAfterStopRecording;
+@property (nonatomic, assign) KC_VIEW_MODE awaitingViewMode;
 
 // Online URLs and IDs
 @property (nonatomic, copy) NSString * onlineVideoID;
@@ -243,6 +255,7 @@ typedef enum
 
 // Public methods
 + (NSString *)videoStatusToString:(KC_VIDEO_STATUS)videoStatus;
++ (NSString *)viewModeToString:(KC_VIEW_MODE)viewMode;
 
 + (NSString *)getVideoDirectoryForVideo:(NSURL *)kamcordDirectory
                                 videoId:(NSString *)videoId;

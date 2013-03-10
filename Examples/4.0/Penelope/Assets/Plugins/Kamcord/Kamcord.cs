@@ -4,9 +4,10 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 //////////////////////////////////////////////////////////////////
-/// Version: 1.0.2 (2013-02-24)
+/// Version: 1.0.5 (2013-03-08)
 //////////////////////////////////////////////////////////////////
 
 public class Kamcord
@@ -16,6 +17,18 @@ public class Kamcord
 	//////////////////////////////////////////////////////////////////
 	
 	/* Interface to native implementation */
+	
+	[DllImport ("__Internal")]
+	private static extern bool _KamcordSetDeviceBlacklist(bool disableiPod4G,
+														  bool disableiPod5G,
+														  bool disableiPhone3GS,
+														  bool disableiPhone4,
+														  bool disableiPad1,
+														  bool disableiPad2,
+														  bool disableiPadMini);
+	
+	[DllImport ("__Internal")]
+	private static extern bool _KamcordIsEnabled();
 	
 	[DllImport ("__Internal")]
 	private static extern void _KamcordInit(string devKey,
@@ -216,7 +229,46 @@ public class Kamcord
 	
 	/* Public interface for use inside C# / JS code */
 	
-	// Starts lookup for some bonjour registered service inside specified domain
+	// If this method is to be used, it **MUST** be the first Kamcord method called
+	public static void SetDeviceBlacklist(bool disableiPod4G,
+										  bool disableiPod5G,
+										  bool disableiPhone3GS,
+										  bool disableiPhone4,
+										  bool disableiPad1,
+										  bool disableiPad2,
+										  bool disableiPadMini)
+	{
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			Debug.Log ("Kamcord.SetDeviceBlacklist");
+			_KamcordSetDeviceBlacklist(disableiPod4G,
+									   disableiPod5G,
+									   disableiPhone3GS,
+									   disableiPhone4,
+									   disableiPad1,
+									   disableiPad2,
+									   disableiPadMini);
+		}
+		else
+		{
+			Debug.Log ("[NOT CALLED] Kamcord.SetDeviceBlacklist");
+		}
+	}
+	
+	public static bool IsEnabled()
+	{
+		// Call plugin only when running on real device
+		if (Application.platform == RuntimePlatform.IPhonePlayer)
+		{
+			return _KamcordIsEnabled();
+		}
+		else
+		{
+			Debug.Log ("[NOT CALLED] Kamcord.IsEnabled");
+			return false;
+		}
+	}
+	
 	public static void Init(string devKey,
 						    string devSecret,
 						    string appName,
@@ -534,6 +586,77 @@ public class Kamcord
 		else
 		{
 			Debug.Log ("[NOT CALLED] Kamcord.WriteAudioData");
+		}
+	}
+	
+	//////////////////////////////////////////////////////////////////
+    /// Subscribe to KamcordCallbackInterface callback
+    ///	
+	
+	// Methods to take care of subscribing and unsubscribing to callbacks
+	public static List<KamcordCallbackInterface> listeners = new List<KamcordCallbackInterface>();
+	
+	// Call this static method to have your object receive all of the
+	// KamcordCallbackInterface callbacks.
+	public static void AddListener(KamcordCallbackInterface listener)
+	{
+		if (!listeners.Contains(listener))
+		{
+			listeners.Add(listener);
+		}
+	}
+	
+	public static void RemoveListener(KamcordCallbackInterface listener)
+	{
+		listeners.Remove(listener);
+	}
+	
+	//////////////////////////////////////////////////////////////////
+    /// Look for AudioListener in the scene and record audio through it
+    ///	
+	
+	private static bool alreadyExaminedAudioListener = false;
+	private static int previousAudioListenerInstanceID = 0;
+	
+	public static void SetAudioListener(AudioListener audioListener)
+	{
+		if (!alreadyExaminedAudioListener || (previousAudioListenerInstanceID != audioListener.GetInstanceID()))
+		{
+			// Check to see if the game object already has a "KamcordAudioRecorder" attached.
+			bool alreadyHasKamcordAudioRecorderAttached = false;
+			
+			GameObject targetGameObject = audioListener.gameObject;
+			
+			Component[] audioListenerComponents = targetGameObject.GetComponents(typeof (MonoBehaviour));
+			foreach (Component audioListenerComponent in audioListenerComponents)
+			{
+				if ((typeof (KamcordAudioRecorder)).Equals(audioListenerComponent.GetType()))
+				{
+					Debug.Log("Game Object already has KamcordAudioRecorder attached, not re-attaching for scene " + Application.loadedLevelName);
+					alreadyHasKamcordAudioRecorderAttached = true;
+					break;
+				}
+			}
+				
+			if (!alreadyHasKamcordAudioRecorderAttached)
+			{
+				Debug.Log("Programmatically adding KamcordAudioRecorder for scene " + Application.loadedLevelName);
+				audioListener.enabled = false;
+				targetGameObject.AddComponent("KamcordAudioRecorder");
+				audioListener.enabled = true;
+			}
+
+			alreadyExaminedAudioListener = true;
+			previousAudioListenerInstanceID = audioListener.GetInstanceID();
+		}
+	}
+	
+	public static void AddKamcordAudioRecorderToAudioListenerObjects()
+	{
+		UnityEngine.Object[] audioListenerObjects = GameObject.FindObjectsOfType(typeof (AudioListener));
+		foreach (UnityEngine.Object audioListenerObject in audioListenerObjects)
+		{
+			Kamcord.SetAudioListener((AudioListener)audioListenerObject);
 		}
 	}
 	

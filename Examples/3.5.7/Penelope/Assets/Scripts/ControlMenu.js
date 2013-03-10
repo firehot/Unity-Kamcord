@@ -31,8 +31,7 @@ function Start()
 {
 	// Make sure these are disabled initially
 	launchIntro.SetActiveRecursively( false );
-	orbEmitter.renderer.enabled = false;	
-
+	orbEmitter.renderer.enabled = false;
 }
 
 function Update () 

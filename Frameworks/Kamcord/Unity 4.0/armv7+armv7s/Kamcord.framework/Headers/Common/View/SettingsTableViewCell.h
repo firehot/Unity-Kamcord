@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "KCUiAssetMap.h"
 
 @interface SettingsTableViewCell : UITableViewCell
 
@@ -43,21 +44,22 @@ typedef struct
     
 } KCSettingsLayout;
 
-
-@property (nonatomic, retain) UIButton * button;
+@property (nonatomic, retain) UIButton * signInButton;
+@property (nonatomic, retain) UIButton * signOutButton;
 @property (nonatomic, retain) UIImageView * image;
 @property (nonatomic, assign) KCSettingsLayout *layout;
 
 - (id)initWithStyle:(UITableViewCellStyle)style
     reuseIdentifier:(NSString *)reuseIdentifier
-            xOffset:(int) xOffset;
+            xOffset:(int) xOffset
+           assetMap:(KCUiAssetMap *)assetMap;
 
--(void)setupWithBounds:(CGSize)bounds
-                 image:(NSString*)imageName
-                button:(UIButton*)newButton
+- (void)setupWithBounds:(CGSize)bounds
+                 image:(NSString *)imageName
+          signInButton:(UIButton *)signInButton
+         signOutButton:(UIButton *)signOutButton
                imgSize:(NSInteger)size
-                 label:(UILabel*)label
-            titleLabel:(UILabel*)titleLabel
-;
+                 label:(UILabel *)label
+            titleLabel:(UILabel *)titleLabel;
 
 @end

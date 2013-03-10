@@ -10,7 +10,13 @@ public interface KamcordCallbackInterface
 {
 	// The Kamcord share view appeared and disappeared
 	void KamcordViewDidAppear();
+	void KamcordViewWillDisappear();
 	void KamcordViewDidDisappear();
+	
+	// The Kamcord watch view appeared and disappeared
+	void KamcordWatchViewDidAppear();
+	void KamcordWatchViewWillDisappear();
+	void KamcordWatchViewDidDisappear();
 	
 	// The video replay view appeared and disappeared
 	void MoviePlayerDidAppear();
@@ -29,4 +35,3 @@ public interface KamcordCallbackInterface
 }
 
 #endif
-

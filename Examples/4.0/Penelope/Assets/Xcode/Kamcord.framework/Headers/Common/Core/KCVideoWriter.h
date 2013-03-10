@@ -19,10 +19,10 @@
 @property (nonatomic, retain, readonly) KCVideo * currentVideo;
 
 // Only initializer
-- (id) initWithDimensions:(CGSize)dimensions
-             videoBitRate:(NSUInteger)bitRate
-                targetFPS:(double)targetFPS
-        videoWritingQueue:(dispatch_queue_t)queue;
+- (id)initWithDimensions:(CGSize)dimensions
+            videoBitRate:(NSUInteger)bitRate
+               targetFPS:(double)targetFPS
+       videoWritingQueue:(dispatch_queue_t)queue;
 
 
 - (BOOL)beginVideo:(KCVideo *)video;
@@ -32,6 +32,9 @@
 - (BOOL)resume;
 - (BOOL)stopRecordingWithCompletionHandler:(void (^)(BOOL))handler;
 - (BOOL)isRecording;
+
+- (BOOL)addFrameToVideo:(CVPixelBufferRef)pixelBuffer
+                 atTime:(CFAbsoluteTime)time;
 
 #if KCUNITY
 - (void)setAudioFormatDescription:(CMFormatDescriptionRef)desc;

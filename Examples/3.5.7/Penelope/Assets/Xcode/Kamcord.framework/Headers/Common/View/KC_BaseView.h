@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "Kamcord.h"
 #import "KCVideoProcessingAndShareManager.h"
+#import "VideoTableViewController.h"
+#import "KCUiAssetMap.h"
 
 @class KCVideo;
 
@@ -16,9 +18,13 @@
 
 @property (nonatomic, retain) KCVideo * latestVideo;
 @property (nonatomic, retain) UITabBarController * tabBarController;
+// TODO: This exposure makes for confusing code elsewhere. Should fix!
+@property (nonatomic, retain) VideoTableViewController * watchView;
 
 - (id)initWithVideo:(KCVideo *)video
-      watchOnlyMode:(BOOL)watchOnlyMode;
+           viewMode:(KC_VIEW_MODE)viewMode
+             params:(NSDictionary *)params
+           assetMap:(KCUiAssetMap *)assetMap;
 
 - (void)doneTapped;
 - (void)setSelectedTab:(NSUInteger)index;

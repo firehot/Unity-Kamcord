@@ -52,6 +52,9 @@ private var fingerDownPosition : Vector2[] = new Vector2[ 2 ];
 private var fingerDownFrame : int[] = new int[ 2 ];
 private var firstTouchTime : float;
 
+// var KamcordPrefab : GameObject = null;
+// var kamcordPrefabClone : GameObject = null;
+
 function Start()
 {
 	// Cache component lookups at startup instead of every frame
@@ -66,6 +69,14 @@ function Start()
 	
 	// Initialize control state
 	ResetControlState();
+
+    /*
+    if (KamcordPrefab != null)
+    {
+        Debug.Log("Instantiating KamcordPrefab");
+        kamcordPrefabClone = Instantiate(KamcordPrefab, Vector3.zero, Quaternion.identity);
+    }
+    */
     
     // Start recording gameplay
     Kamcord.StartRecording();

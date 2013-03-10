@@ -11,6 +11,11 @@
 
 #import "KCVideoProcessingAndShareManager.h"
 
+#if KCZYNGA
+#import "ZyngaKamcordProtocols.h"
+#endif
+
+
 @class KCUI;
 @class KCVideoWriter;
 
@@ -28,11 +33,11 @@
 
 // Should the UI wait for conversion to finish before
 // dismissing the share view?
-@property (assign, nonatomic) BOOL enableSynchronousConversionUI;
-@property (assign, nonatomic) BOOL alwaysShowProgressBar;
+@property (nonatomic, assign) BOOL enableSynchronousConversionUI;
+@property (nonatomic, assign) BOOL alwaysShowProgressBar;
 
 // Show video controls when the replay is presented?
-@property (assign, nonatomic) BOOL showVideoControlsOnReplay;
+@property (nonatomic, assign) BOOL showVideoControlsOnReplay;
 
 // The location of the Kamcord directory
 @property (nonatomic, retain) NSURL * kamcordDirectory;
@@ -45,15 +50,27 @@
 @property (nonatomic, assign) NSUInteger    bitrate;
 @property (nonatomic, assign) float         targetFPS;
 
+#if KCZYNGA
+@property (nonatomic, assign) id <KamcordPushNotificationDelegate> pushNotifDelegate;
+#endif
+
 + (KC_OS_VERSION)getDeviceOSVersion;
 + (NSString *)deviceOSVersionToString:(KC_OS_VERSION)osVersion;
 
 - (id)init;
 
+// Permanently disables Kamcord
+- (void)disable;
+
+- (BOOL)isViewShowing;
 - (void)showWatchViewInViewController:(UIViewController *)parentViewController;
 - (void)showViewInViewController:(UIViewController *)parentViewController;
 - (void)showViewInViewController:(UIViewController *)parentViewController
-                        forVideo:(KCVideo *)video;
+                        forVideo:(KCVideo *)video
+                        viewMode:(KC_VIEW_MODE)viewMode;
+- (void)showZyngaShareViewInViewController:(UIViewController *)parentViewController;
+- (void)showAutoPopViewInViewController:(UIViewController *)parentViewController;
+
 - (UIView *)getThumbnailView:(NSUInteger)width
                     height:(NSUInteger)height
       parentViewController:(UIViewController *)parentViewController;
@@ -79,9 +96,12 @@
 
 // Video push notifications
 - (void)retrieveMetadataForVideoWithID:(NSString *)videoID
-                 withCompletionHandler:(void (^)(NSDictionary *, NSError *))completionHandler;
+                 withCompletionHandler:(void (^)(NSMutableDictionary *, NSError *))completionHandler;
 - (void)showVideoPushNotificationReceiverViewInParentViewController:(UIViewController *)parentViewController
                                                          withParams:(NSDictionary *)params;
+
+- (void)setValue:(NSObject *)value
+  forUiComponent:(KC_UI_COMPONENT)uiComponent;
 
 #if (COCOS2D_1_0_1 || COCOS2D_2_0 || COCOS2D_2_1)
 // Sound

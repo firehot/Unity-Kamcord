@@ -65,14 +65,14 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 		this.theGuiTexture = guiTextures[0];
 		Debug.Log (this.name + " will use " + this.theGuiTexture.name + " as the thumbnail texture.");
 		
-		KamcordCallbackHandler.AddListener(this);
+		Kamcord.AddListener(this);
 		EnableThumbnail(false);
 	}
 	
 	void OnDestroy()
 	{
 		Debug.Log ("Thumbnail updater was destroyed.");
-		KamcordCallbackHandler.RemoveListener(this);
+		Kamcord.RemoveListener(this);
 	}
 	
 	// Detect touch events

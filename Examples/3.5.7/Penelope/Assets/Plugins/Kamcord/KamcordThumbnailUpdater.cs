@@ -3,11 +3,6 @@
 using UnityEngine;
 using System.Collections;
 
-// As of Kamcord 1.0, there is a known bug in this
-// class that will cause a System.NullReferenceException crash
-// on Kamcord.StopRecording(). Please refrain from using
-// this script until this is fixed in 1.0.1.
-
 public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 {
 	// ------------------------------------------------------------------
@@ -65,14 +60,14 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 		this.theGuiTexture = guiTextures[0];
 		Debug.Log (this.name + " will use " + this.theGuiTexture.name + " as the thumbnail texture.");
 		
-		KamcordCallbackHandler.AddListener(this);
+		Kamcord.AddListener(this);
 		EnableThumbnail(false);
 	}
 	
 	void OnDestroy()
 	{
 		Debug.Log ("Thumbnail updater was destroyed.");
-		KamcordCallbackHandler.RemoveListener(this);
+		Kamcord.RemoveListener(this);
 	}
 	
 	// Detect touch events
@@ -94,7 +89,7 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 	// Display a play button if the thumbnail is visible
 	void OnGUI()
 	{
-		if (this.theGuiTexture != null && this.theGuiTexture.enabled)
+		if (this.theGuiTexture != null && this.theGuiTexture.enabled && this.playButtonTexture != null)
 		{
 			GUI.Label(playButtonLocationAndSize, playButtonTexture);
 		}
@@ -110,8 +105,28 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 		// Intentionally left blank
 	}
 	
+	public void KamcordViewWillDisappear()
+	{
+		// Intentionally left blank
+	}
+	
 	// The Kamcord share view disappeared
 	public void KamcordViewDidDisappear()
+	{
+		// Intentionally left blank
+	}
+	
+	public void KamcordWatchViewDidAppear()
+	{
+		// Intentionally left blank
+	}
+	
+	public void KamcordWatchViewWillDisappear()
+	{
+		// Intentionally left blank
+	}
+	
+	public void KamcordWatchViewDidDisappear()
 	{
 		// Intentionally left blank
 	}
@@ -134,7 +149,7 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 		Debug.Log("Video thumbnail file path: " + filepath);
 		if (System.IO.File.Exists(filepath))
 		{
-			Debug.Log ("Video thumnail exists at file path: " + filepath);
+			Debug.Log ("Video thumbnail exists at file path: " + filepath);
 			SetThumbnailTextureToFilepath(filepath);
 		}
 	}
@@ -176,15 +191,18 @@ public class KamcordThumbnailUpdater : MonoBehaviour, KamcordCallbackInterface
 			float absoluteWidth  = this.thumbnailToScreenRatio * Screen.width;
 			float absoluteHeight = this.thumbnailToScreenRatio * Screen.height;
 			
-			// Then center the play button on the thumbnail
-			float playButtonWidth  = Mathf.Min(playButtonTexture.width, this.playButtonToThumbnailRatio * absoluteWidth);
-			float playButtonHeight = playButtonWidth;
-			float playButtonAbsoluteX = absoluteX + 0.5f * (absoluteWidth  - playButtonWidth);
-			// GUI.Label screen coords origin is top left, unlike thumbnail texture :(
-			float playButtonAbsoluteY = (Screen.height - absoluteY) - 0.5f * (absoluteHeight + playButtonHeight);
-						
-			// Save it for later use in OnGUI
-			playButtonLocationAndSize = new Rect(playButtonAbsoluteX, playButtonAbsoluteY, playButtonWidth, playButtonHeight);
+			if (this.playButtonTexture != null)
+			{
+				// Then center the play button on the thumbnail
+				float playButtonWidth  = Mathf.Min(playButtonTexture.width, this.playButtonToThumbnailRatio * absoluteWidth);
+				float playButtonHeight = playButtonWidth;
+				float playButtonAbsoluteX = absoluteX + 0.5f * (absoluteWidth  - playButtonWidth);
+				// GUI.Label screen coords origin is top left, unlike thumbnail texture :(
+				float playButtonAbsoluteY = (Screen.height - absoluteY) - 0.5f * (absoluteHeight + playButtonHeight);
+							
+				// Save it for later use in OnGUI
+				playButtonLocationAndSize = new Rect(playButtonAbsoluteX, playButtonAbsoluteY, playButtonWidth, playButtonHeight);
+			}
 			
 			Debug.Log ("Screen width and height: (" + Screen.width + ", " + Screen.height + ")");
 			Debug.Log ("Texture location and size: (" + absoluteX + ", " + absoluteY + ", " + absoluteWidth + ", " + absoluteHeight + ")");

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "Common/Core/OpenGL/KamcordRecorder.h"
 #import "Common/Core/KamcordProtocols.h"
 
 // Convenient for game developers
@@ -22,6 +23,48 @@
 
 FOUNDATION_EXPORT NSString * const KamcordVersion;
 
+static NSString * const DEVICE_TYPE_IPOD_4G     = @"DEVICE_TYPE_IPOD_4G";
+static NSString * const DEVICE_TYPE_IPOD_5G     = @"DEVICE_TYPE_IPOD_5G";
+static NSString * const DEVICE_TYPE_IPAD_1      = @"DEVICE_TYPE_IPAD_1";
+static NSString * const DEVICE_TYPE_IPAD_2      = @"DEVICE_TYPE_IPAD_2";
+static NSString * const DEVICE_TYPE_IPAD_MINI   = @"DEVICE_TYPE_IPAD_MINI";
+static NSString * const DEVICE_TYPE_IPHONE_3GS  = @"DEVICE_TYPE_IPHONE_3GS";
+static NSString * const DEVICE_TYPE_IPHONE_4    = @"DEVICE_TYPE_IPHONE_4";
+
+// --------------------------------------------------------
+// Keys for skinning the Kamcord UI
+// The value you set for these keys can either be NSStrings which can be a path to the resource URL
+// Or, if appropriate, a UIColor object
+typedef enum
+{
+    KC_NAV_BAR = 0,
+    KC_NAV_BAR_TEXT_COLOR = 1,
+    KC_BACKGROUND = 2,
+    KC_BACKGROUND_TALL = 3,
+    KC_TOOLBAR_DONE_BUTTON = 4,
+    KC_TOOLBAR_DONE_BUTTON_TEXT_COLOR = 5,
+    KC_TABLE_CELL_BACKGROUND_COLOR = 6,
+    KC_TABLE_CELL_TEXT_COLOR = 7,
+    KC_TOOLBAR_SHARE_BUTTON = 8,
+    KC_TOOLBAR_SHARE_BUTTON_TEXT_COLOR = 9,
+    KC_MAIN_SHARE_BUTTON = 10,
+    KC_MAIN_SHARE_BUTTON_TEXT_COLOR = 11,
+    KC_SHARE_TITLE_TEXT_COLOR = 12,
+    KC_SHARE_GRID_LABEL_COLOR = 13,
+    KC_TABLE_CELL_SPLIT_COLOR = 14,
+    KC_POWERED_BY_KAMCORD_COLOR = 15,
+    KC_REFRESH_ARROW = 16,
+    KC_REFRESH_TEXT_SPINNER_COLOR = 17,
+    KC_PROGRESS_VIEW_BACKGROUND = 18,
+    KC_WATCH_VIEW_CELL_BACKGROUND = 19,
+    KC_WATCH_VIEW_VIDEO_TITLE_COLOR = 20,
+    KC_WATCH_VIEW_VIDEO_TIME_COLOR = 21,
+    KC_SETTINGS_SIGN_IN_BUTTON = 22,
+    KC_SETTINGS_SIGN_IN_BUTTON_TEXT_COLOR = 23,
+    KC_SETTINGS_SIGN_OUT_BUTTON = 24,
+    KC_SETTINGS_SIGN_OUT_BUTTON_TEXT_COLOR = 25
+} KC_UI_COMPONENT;
+
 @class KCVideo;
 
 @interface Kamcord : NSObject
@@ -29,11 +72,14 @@ FOUNDATION_EXPORT NSString * const KamcordVersion;
 ////////////////////////////////////////////////
 // Public methods
 
-// Returns YES if and only if Kamcord is supported by 
-// this device's version of iOS.
-// Note: You do NOT need to wrap your Kamcord calls
-//       with this function. Kamcord will turn itself
-//       off if this is NO.
+// If you want to automatically turn off Kamcord on these devices,
+// make [Kamcord setDeviceBlacklist:...] first Kamcord call you make.
+// Pass in an NSArray consisting of any of the devices listed above
+// (i.e. DEVICE_TYPE_IPOD, etc.).
++ (void)setDeviceBlacklist:(NSArray *)blacklist;
+
+// Will return if Kamcord is enabled on the current device.
+// Takes into account the device blacklist and also version of iOS.
 + (BOOL)isEnabled;
 
 // Setup

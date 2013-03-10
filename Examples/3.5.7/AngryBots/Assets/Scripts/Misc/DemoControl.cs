@@ -124,9 +124,6 @@ public class DemoControl : MonoBehaviour
 				{
 					FlipPause ();
 					Event.current.Use ();
-				
-					Kamcord.StopRecording();
-					Kamcord.ShowView ();
 				}
 			break;
 		}
@@ -153,7 +150,6 @@ public class DemoControl : MonoBehaviour
 			if (MenuButton (resumeButton))
 			{
 				Time.timeScale = 1.0f;
-				Kamcord.StartRecording();
 			}
 			
 			if (fullScreenAvailable)

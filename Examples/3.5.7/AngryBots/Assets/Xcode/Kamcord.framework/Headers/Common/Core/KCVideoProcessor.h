@@ -9,6 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "KCVideoProcessingAndShareManager.h"
 
+typedef enum
+{
+    KC_VIDEO_ERROR_NONE                     = 0,
+    KC_VIDEO_ERROR_ALREADY_DELETED          = 150,
+    KC_VIDEO_ERROR_NONPOSITIVE_RENDERSIZE   = 250
+} KC_VIDEO_ERROR_CODE;
+
 @interface KCVideoProcessor : NSObject
 
 // Weak reference since the task itself
