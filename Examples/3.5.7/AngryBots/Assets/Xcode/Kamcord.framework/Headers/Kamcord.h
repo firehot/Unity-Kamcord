@@ -15,7 +15,7 @@
 #import "Common/Core/KCAnalytics.h"
 
 // --------------------------------------------------------
-// The current version is 1.0.5 (2013-03-09)
+// The current version is 1.0.6 (2013-03-11)
 FOUNDATION_EXPORT NSString * const KamcordVersion;
 
 @class KCVideo;
